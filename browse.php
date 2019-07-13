@@ -1064,8 +1064,8 @@ class Request {
 			}
 
 			# validate mimetypes
-			if (!preg_match('#^(application|audio|image|message|multipart|text|video)/#i', $mime)) {
-				$this->parseType = 'html';
+			if (!preg_match('#^(application|audio|image|text|video)/#i', $mime)) {
+				header('Content-Type: text/plain');
 			}
 
 		} else {
@@ -1179,22 +1179,14 @@ class Request {
 
 	private function firstBody($data) {
 
-		# Do we want to sniff the data? Determines if ascii or binary.
+		# Do we want to sniff the data to gues the mimetype?
 		if ( $this->sniff ) {
-
-			# Take a sample of 100 chars chosen at random
-			$length = strlen($data);
-			$sample = $length < 150 ? $data : substr($data, rand(0, $length-100), 100);
-
-			# Assume ASCII if more than 95% of bytes are "normal" text characters
-			# Or if data contains common HTML tags
-			if (
-				strlen(preg_replace('#[^A-Z0-9\!"$%\^&*\(\)=\+\\\\|\[\]\{\};:\\\'\@\#~,\.<>/\?\-]#i', '', $sample))>95
-			 || preg_match('#(?:<!DOCTYPE|<html|<head|<body|<script)\b#i', $data)
-			) {
+			if (preg_match('#<html\b.*<head\b#i', $data)) {
+				header('Content-Type: text/html');
 				$this->parseType = 'html';
+			} else {
+				header('Content-Type: text/plain');
 			}
-
 		}
 
 		# Now we know if parsing is required, we can forward content-length
