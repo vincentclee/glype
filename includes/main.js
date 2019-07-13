@@ -16,8 +16,8 @@
 
 if(parent.frames.length==0) {
 	x=location.href;
-	if (x.indexOf('&f=frame')!=-1||x.indexOf('&frame')!=-1) {
-		x=x.replace(/&f=frame/,'');
+	if (x.indexOf('f=frame')!=-1||x.indexOf('&frame')!=-1) {
+		x=x.replace(/f=frame/,'');
 		x=x.replace(/&frame/,'');
 		parent.location.href=x;
 	}

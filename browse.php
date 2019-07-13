@@ -1063,6 +1063,11 @@ class Request {
 				$this->parseType = $types[$mime];
 			}
 
+			# validate mimetypes
+			if (!preg_match('#^(application|audio|image|message|multipart|text|video)/#i', $mime)) {
+				$this->parseType = 'html';
+			}
+
 		} else {
 
 			# Tell our read body function to 'sniff' the data to determine type
@@ -1182,11 +1187,12 @@ class Request {
 			$sample = $length < 150 ? $data : substr($data, rand(0, $length-100), 100);
 
 			# Assume ASCII if more than 95% of bytes are "normal" text characters
-			if ( strlen(preg_replace('#[^A-Z0-9\!"$%\^&*\(\)=\+\\\\|\[\]\{\};:\\\'\@\#~,\.<>/\?\-]#i', '', $sample)) > 95 ) {
-
-				# To do: expand this to detect if html/js/css
+			# Or if data contains common HTML tags
+			if (
+				strlen(preg_replace('#[^A-Z0-9\!"$%\^&*\(\)=\+\\\\|\[\]\{\};:\\\'\@\#~,\.<>/\?\-]#i', '', $sample))>95
+			 || preg_match('#(?:<!DOCTYPE|<html|<head|<body|<script)\b#i', $data)
+			) {
 				$this->parseType = 'html';
-
 			}
 
 		}
