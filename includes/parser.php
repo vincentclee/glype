@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************
-* Glype is copyright and trademark 2007-2012 UpsideOut, Inc. d/b/a Glype
+* Glype is copyright and trademark 2007-2013 UpsideOut, Inc. d/b/a Glype
 * and/or its licensors, successors and assigners. All rights reserved.
 *
 * Use of Glype is subject to the terms of the Software License Agreement.
@@ -51,6 +51,10 @@ class parser {
 				$charset = preg_match('#charset\s*=\s*([^"\'\s>]*)#is', $input, $tmp, PREG_OFFSET_CAPTURE) ? $tmp[1][0] : null;
 			}
 		}
+
+		# Remove conditional comments
+		$input = preg_replace('#<\!\-\-\[if \!IE\]>\s*\-\->(.*?)<\!\[endif\]\-\->#s','$1',$input);
+		$input = preg_replace('#<\!\-\-\[if.*?<\!\[endif\]\-\->#s','',$input);
 
 		# Remove titles if option is enabled
 		if ( $this->htmlOptions['stripTitle'] || $this->htmlOptions['encodePage'] ) {
@@ -407,6 +411,13 @@ class parser {
 
 				}
 
+				# If $item is whole word?
+				if ( ( $input[$tmp-1] == '_' ) || ctype_alpha($input[$tmp-1]) ) {
+				    
+				    # No
+					continue;
+
+				}
 
 				# Closer to the currently held 'next' position?
 				if ( $tmp < $commandPos ) {
@@ -436,11 +447,13 @@ class parser {
 				}
 				
 				# Check next chars
-				if ( isset($pattern['after']) && ( $postCharPos = str_checknext($input, $pattern['after'], $commandPos + strlen($command), false, true) ) === false ) {
+				if ( isset($pattern['after']) && ( $charPos = str_checknext($input, $pattern['after'], $commandPos + strlen($command), false, false) ) === false ) {
 					continue;
 				}
-				
-				# Still here? Match must be OK so generate a match ID			 
+
+				$postCharPos = ($charPos + 1) + strspn($input, " \t\r\n", $charPos + 1);
+
+				# Still here? Match must be OK so generate a match ID
 				if ( isset($pattern['id']) ) {
 					$valid = $command . $pattern['id'];
 				} else {
@@ -469,7 +482,7 @@ class parser {
 					}
 
 					# Find the end of this statement
-					$endPos = analyze_js($input, $postCharPos);
+					$endPos = analyzeAssign_js($input, $charPos);
 					$valueLength = $endPos - $postCharPos;
 
 					# Produce replacement command
@@ -498,17 +511,21 @@ class parser {
 				case 'writeln':
 					
 					# Find the end position (the closing ")" for the function call)
-					$endPos = analyze_js($input, $postCharPos);
+					$endPos = analyze_js($input, $charPos);
 					
 					# Insert our additional argument just before that
-					$input = substr_replace($input, ',"gl"', $endPos, 0);
-					
+					$glStr=',"gl"';
+					if (strspn($input, ";\n\r\+{}()[]", $charPos) >= ($endPos - $charPos)) {
+						$glStr='"gl"';
+					}
+					$input = substr_replace($input, $glStr, $endPos - 1, 0);
+
 					# Adjust the document length
-					$length += 5;
-					
+					$length += strlen($glStr);
+
 					# And move the offset
-					$offset = $endPos + 5;
-					
+					$offset = $endPos + strlen($glStr);
+
 					# Get next match
 					continue 2;
 				
@@ -522,7 +539,7 @@ class parser {
 					}
 				
 					# Find the end position (the closing ")" for the function call)
-					$endPos = analyze_js($input, $postCharPos);
+					$endPos = analyze_js($input, $charPos);
 					$valueLength = $endPos - $postCharPos;
 					
 					# Generate our replacement
@@ -550,10 +567,10 @@ class parser {
 					}
 
 					# Move $postCharPos to inside the brackets of .replace()
-					$postCharPos += strlen($tmp[0]);
+					$charPos = $postCharPos - 1;
 				
 					# Find the end position (the closing ")" for the function call)
-					$endPos = analyze_js($input, $postCharPos);
+					$endPos = analyze_js($input, $charPos);
 					$valueLength = $endPos - $postCharPos;
 					
 					# Generate our replacement
@@ -849,19 +866,16 @@ function str_checkprev($input, $char, $offset, $inverse = false) {
 # the parenthesis of the function call we're interested in.
 function analyze_js($input, $start, $argPos = false) {
 
-	# Set chars we're interested in
-	$specialChars = ";\n\r\"'+{}()[]";
-
 	# Add , if looking for an argument position
 	if ( $argPos ) {
-		$specialChars .= ',';
 		$currentArg = 1;
 	}
 
 	# Loop through the input, stopping only at special chars
 	for ( $i = $start, $length = strlen($input), $end = false, $openObjects = $openBrackets = $openArrays = 0;
-			$end === false && ( $i += strcspn($input, $specialChars, $i) ) && $i < $length && ( $char = $input[$i] );
+			$end === false && $i < $length;
 			++$i ) {
+		$char = $input[$i];
 
 		switch ( $char ) {
 
@@ -978,6 +992,105 @@ function analyze_js($input, $start, $argPos = false) {
 	# Return array of start/end
 	if ( $argPos ) {
 		return array($start, $end);
+	}
+
+	# Return end
+	return $end;
+
+}
+function analyzeAssign_js($input, $start) {
+
+	# Loop through the input, stopping only at special chars
+	for ( $i = $start, $length = strlen($input), $end = false, $openObjects = $openBrackets = $openArrays = 0;
+			$end === false && $i < $length;
+			++$i ) {
+		$char = $input[$i];
+
+		switch ( $char ) {
+
+			# Starting string delimiters
+			case '"':
+			case "'":
+
+				if ( $input[$i-1] == '\\' ) { 
+					break;
+				}
+			
+				# Skip straight to end of string
+				# Find the corresponding end delimiter and ensure it's not escaped
+				while ( ( $i = strpos($input, $char, $i+1) ) && $input[$i-1] == '\\' );
+
+				# Check for false, in which case we assume the end is the end of the doc
+				if ( $i === false ) {
+					break 2;
+				}
+
+				break;
+
+			# End of operation?
+			case ';':
+				$end = $i;
+				break;
+
+			# New lines
+			case "\n":
+			case "\r":
+				# Newlines are OK if occuring within an open brackets, arrays or objects.
+				if ( $openObjects || $openBrackets || $openArrays ) {
+					break;
+				}
+				break;
+
+			# Concatenation
+			case '+':
+				# Our interest in the + operator is it's use in allowing an expression
+				# to span multiple lines. If we come across a +, move past all whitespace,
+				# including newlines (which would otherwise indicate end of expression).
+				$i += strspn($input, " \t\r\n", $i+1);
+				break;
+
+			# Opening chars (objects, parenthesis and arrays)
+			case '{':
+				++$openObjects;
+				break;
+			case '(':
+				++$openBrackets;
+				break;
+			case '[':
+				++$openArrays;
+				break;
+
+			# Closing chars - is there a corresponding open char?
+			# Yes = reduce stored count. No = end of statement.
+			case '}':
+				$openObjects	? --$openObjects	 : $end = $i;
+				break;
+			case ')':
+				$openBrackets	? --$openBrackets	 : $end = $i;
+				break;
+			case ']':
+				$openArrays		? --$openArrays	 : $end = $i;
+				break;
+
+			# Commas - tell us which argument it is
+			case ',':
+
+				# Ignore commas inside other functions or whatnot
+				if ( $openObjects || $openBrackets || $openArrays ) {
+					break;
+				}
+
+				# End now
+				$end = $i;
+				break;
+
+		}
+
+	}
+
+	# End not found? Use end of document
+	if ( $end === false ) {
+		$end = $length;
 	}
 
 	# Return end

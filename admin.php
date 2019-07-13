@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************
-* Glype is copyright and trademark 2007-2012 UpsideOut, Inc. d/b/a Glype
+* Glype is copyright and trademark 2007-2013 UpsideOut, Inc. d/b/a Glype
 * and/or its licensors, successors and assigners. All rights reserved.
 *
 * Use of Glype is subject to the terms of the Software License Agreement.
@@ -42,7 +42,7 @@ ini_set('display_errors', 1);
 define('ADMIN_URI', $_SERVER['PHP_SELF']);
 
 # Define the current admin version
-define('ADMIN_VERSION', '1.4.2');
+define('ADMIN_VERSION', '1.4.3');
 
 # Start buffering
 ob_start();
@@ -682,7 +682,7 @@ OUT;
 		<div id="footer">
 
 			<div id="footer_bg">
-				<p><a href="http://www.glype.com/">Glype</a>&reg; &copy; 2007-2012 Glype. All rights reserved.</p>
+				<p><a href="http://www.glype.com/">Glype</a>&reg; &copy; 2007-2013 Glype. All rights reserved.</p>
 			</div>
 
 		</div>
@@ -1519,7 +1519,7 @@ OUT;
 			# Prepare the file header
 			$toWrite = '<?php
 /*******************************************************************
-* Glype is copyright and trademark 2007-2012 UpsideOut, Inc. d/b/a Glype
+* Glype is copyright and trademark 2007-2013 UpsideOut, Inc. d/b/a Glype
 * and/or its licensors, successors and assigners. All rights reserved.
 *
 * Use of Glype is subject to the terms of the Software License Agreement.

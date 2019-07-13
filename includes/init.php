@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************
-* Glype is copyright and trademark 2007-2012 UpsideOut, Inc. d/b/a Glype
+* Glype is copyright and trademark 2007-2013 UpsideOut, Inc. d/b/a Glype
 * and/or its licensors, successors and assigners. All rights reserved.
 *
 * Use of Glype is subject to the terms of the Software License Agreement.
@@ -92,7 +92,7 @@ $httpErrors = array('404' => 'A 404 error occurs when the requested resource doe
 ******************************************************************/
 
 # Current version - no need to change this!
-$themeReplace['version'] = 'v1.4.2';
+$themeReplace['version'] = 'v1.4.3';
 
 # Look for a config.php in the /themes/themeName/ folder
 if ( ! defined('MULTIGLYPE') && file_exists($tmp = GLYPE_ROOT . '/themes/' . $CONFIG['theme'] . '/config.php') ) {
