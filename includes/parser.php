@@ -52,9 +52,15 @@ class parser {
 			}
 		}
 
+		# Remove empty script comments
+		$input = preg_replace('#/\*\s*\*/#s', '', $input);
+
 		# Remove conditional comments
 		$input = preg_replace('#<\!\-\-\[if \!IE\]>\s*\-\->(.*?)<\!\[endif\]\-\->#s','$1',$input);
 		$input = preg_replace('#<\!\-\-\[if.*?<\!\[endif\]\-\->#s','',$input);
+
+		# Prevent websites from calling disableOverride()
+		$input = preg_replace('#disableOverride#s', 'disabled___disableOverride', $input);
 
 		# Remove titles if option is enabled
 		if ( $this->htmlOptions['stripTitle'] || $this->htmlOptions['encodePage'] ) {

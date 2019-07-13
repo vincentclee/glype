@@ -92,7 +92,7 @@ $httpErrors = array('404' => 'A 404 error occurs when the requested resource doe
 ******************************************************************/
 
 # Current version - no need to change this!
-$themeReplace['version'] = 'v1.4.4';
+$themeReplace['version'] = 'v1.4.5';
 
 # Look for a config.php in the /themes/themeName/ folder
 if ( ! defined('MULTIGLYPE') && file_exists($tmp = GLYPE_ROOT . '/themes/' . $CONFIG['theme'] . '/config.php') ) {

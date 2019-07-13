@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*******************************************************************
 * Glype is copyright and trademark 2007-2013 UpsideOut, Inc. d/b/a Glype
 * and/or its licensors, successors and assigners. All rights reserved.
@@ -265,7 +265,7 @@ $CONFIG['options']['stripObjects'] = array(
 
 # Settings file version for determining compatability with admin
 # tool.
-$CONFIG['version'] = '1.4.4';
+$CONFIG['version'] = '1.4.5';
 
 //---PRESERVE ME---
 // Anything below this line will be preserved when the admin control panel rewrites
