@@ -42,7 +42,7 @@ ini_set('display_errors', 1);
 define('ADMIN_URI', $_SERVER['PHP_SELF']);
 
 # Define the current admin version
-define('ADMIN_VERSION', '1.4.13');
+define('ADMIN_VERSION', '1.4.14');
 
 # Start buffering
 ob_start();

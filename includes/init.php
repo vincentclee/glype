@@ -26,13 +26,10 @@ define('COOKIE_PREFIX', 'c');
 # Running on HTTPS?
 define('HTTPS', ( empty($_SERVER['HTTPS']) || strtolower($_SERVER['HTTPS']) == 'off' ? false : true ));
 
-# Running in safe_mode?
-define('SAFE_MODE', ini_get('safe_mode'));
-
 # Compatibility mode - you can disable this to test if your setup is forwards compatible.
 # Backwards compatiblity is frequently removed so keep up to date! Checking this is
 # ESSENTIAL if you're distributing a theme or plugin.
-define('COMPATABILITY_MODE', true);
+define('COMPATABILITY_MODE', false);
 
 # Set up paths/urls
 define('GLYPE_ROOT', str_replace('\\', '/', dirname(dirname(__FILE__))));
@@ -90,7 +87,7 @@ $httpErrors = array('404' => 'A 404 error occurs when the requested resource doe
 ******************************************************************/
 
 # Current version - no need to change this!
-$themeReplace['version'] = 'v1.4.13';
+$themeReplace['version'] = 'v1.4.14';
 
 # Look for a config.php in the /themes/themeName/ folder
 # If running multiple proxies off the same source files
@@ -586,7 +583,9 @@ function absoluteURL($input) {
 # Load a template
 function loadTemplate($file, $vars=array()) {
 
-	$vars['url']=htmlentities($vars['url']);
+	if (!empty($vars['url'])) {
+		$vars['url']=htmlentities($vars['url']);
+	}
 
 	# Extract passed vars
 	extract($vars);
@@ -806,10 +805,7 @@ function sendNoCache() {
 }
 
 # Trim and stripslashes
-function clean($value) {
-
-	# Static $magic saves us recalling get_magic_quotes_gpc() every time
-	static $magic;
+function clean($value) {	
 
 	# Recurse if array
 	if ( is_array($value) ) {
@@ -819,19 +815,13 @@ function clean($value) {
 	# Trim extra spaces
 	$value = trim($value);
 
-	# Check magic quotes status
-	if ( ! isset($magic) ) {
-		$magic = get_magic_quotes_gpc();
-	}
-
-	# Stripslashes if magic
-	if ( $magic && is_string($value) ) {
-		$value = stripslashes($value);
+	# Validation
+	if (is_string($value)) {
+		$value = stripslashes(strip_tags($value));
 	}
 
 	# Return cleaned
 	return $value;
-
 }
 
 # Redirect

@@ -68,6 +68,9 @@ class parser {
 		# Prevent websites from calling disableOverride()
 		$input = preg_replace('#disableOverride#s', 'disabled___disableOverride', $input);
 
+		# Prevent websites from making STUN requests
+		$input = preg_replace('#RTCPeerConnection#s', 'disabled___RTCPeerConnection', $input);
+
 		# Remove titles if option is enabled
 		if ( $this->htmlOptions['stripTitle'] || $this->htmlOptions['encodePage'] ) {
 			$input = preg_replace('#<title.*?</title>#is', '', $input, 1);

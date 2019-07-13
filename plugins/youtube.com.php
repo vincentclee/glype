@@ -9,7 +9,7 @@
 
 define('high_quality', true);
 
-$toSet[CURLOPT_TIMEOUT] = 3600;
+$CONFIG['transfer_timeout'] = 3600;
 $options['stripJS'] = true;
 $options['stripObjects'] = true;
 $options['allowCookies'] = false;

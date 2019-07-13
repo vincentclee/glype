@@ -267,8 +267,8 @@ if ( ! $CONFIG['queue_transfers'] ) {
 ******************************************************************/
 
 if (
-	# Option enabled (and possible? safe_mode prevents shell_exec)
-	! SAFE_MODE && $CONFIG['load_limit']
+	# Option enabled
+	$CONFIG['load_limit']
 
 	# Ignore inline elements - when borderline on the server load, if the HTML
 	# page downloads fine but the inline images, css and js are blocked, the user
@@ -846,9 +846,7 @@ class Request {
 		$this->curlOptions = $curlOptions;
 
 		# Extend the PHP timeout
-		if ( ! SAFE_MODE ) {
-			set_time_limit($CONFIG['transfer_timeout']);
-		}
+		set_time_limit($CONFIG['transfer_timeout']);
 
 		# Record debug information
 		if ( DEBUG_MODE ) {
@@ -1181,7 +1179,7 @@ class Request {
 
 		# Do we want to sniff the data to gues the mimetype?
 		if ( $this->sniff ) {
-			if (preg_match('#<html\b.*<head\b#i', $data)) {
+			if (stripos($data, '<html')!==false && stripos($data, '<head')!==false) {
 				header('Content-Type: text/html');
 				$this->parseType = 'html';
 			} else {

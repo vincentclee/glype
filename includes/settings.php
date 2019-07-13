@@ -265,7 +265,7 @@ $CONFIG['options']['stripObjects'] = array(
 
 # Settings file version for determining compatability with admin
 # tool.
-$CONFIG['version'] = '1.4.13';
+$CONFIG['version'] = '1.4.14';
 
 //---PRESERVE ME---
 // Anything below this line will be preserved when the admin control panel rewrites

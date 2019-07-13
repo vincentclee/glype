@@ -291,7 +291,7 @@ function updateLocation(form) {
 
 	// Update location
 	window.top.location = myParseURL(url, 'norefer');
-	return false;
+	return true;
 }
 
 

@@ -7,7 +7,7 @@
 * http://www.glype.com/license.php
 ******************************************************************/
 
-$options['stripJS'] = false;
+$options['stripJS'] = true;
 $options['allowCookies'] = true;
 
 function preRequest() {

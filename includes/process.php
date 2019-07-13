@@ -32,7 +32,7 @@ switch ( $action ) {
 	case 'update':
 
 		# Valid input?
-		if ( ! isset($_POST['u']) || ! ( $url = clean($_POST['u']) ) ) {
+		if ( empty($_POST['u']) || ! ( $url = clean($_POST['u']) ) ) {
 			break;
 		}
 
@@ -192,7 +192,7 @@ switch ( $action ) {
 					foreach ( $file as $id => $line ) {
 
 						# Ignore comment lines
-						if ( ! isset($line[0]) || $line[0] == '#' ) {
+						if ( !empty($line[0]) || $line[0]=='#' ) {
 							continue;
 						}
 
@@ -230,7 +230,7 @@ switch ( $action ) {
 					$details = explode('|', $cookie, 3);
 
 					# Check for successful split
-					if ( ! isset($details[2]) ) {
+					if ( !empty($details[2]) ) {
 						continue;
 					}
 
