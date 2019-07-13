@@ -21,7 +21,6 @@ function preParse($input, $type) {
 	switch($type) {
 		case 'html':
 			if (preg_match('#url_encoded_fmt_stream_map["\']:\s*["\']([^"\'\s]*)#', $input, $stream_map)) {
-				define('stream_map', $stream_map[1]);
 				preg_match("/^([a-z0-9_]*=)/i", $stream_map[1], $yt_sep);
 				$urls = preg_split('/'.$yt_sep[1].'/', $stream_map[1]);
 				if (!high_quality) {$urls = array_reverse($urls);}
@@ -30,17 +29,9 @@ function preParse($input, $type) {
 					$url = str_replace('\u0026', '&', $url);
 
 					if (strpos($url,'video/x-flv')===false) {continue;}
-				
+
 					$url = preg_replace('#;.*$#', '', $url);
 					$url = preg_replace('#,.*$#', '', $url);
-
-					if ($yt_sep[1]=='sig=') {
-						preg_match("/^([^&]*)/", $url, $yt_sig);
-						$url.='&signature='.$yt_sig[1];
-					} else {
-						preg_match("/sig=([^&]*)/", $url, $yt_sig);
-						$url.='&signature='.$yt_sig[1];
-					}
 
 					if ($yt_sep[1]=='itag=') {
 						preg_match("/^([^&]*)/", $url, $yt_itag);
@@ -53,7 +44,15 @@ function preParse($input, $type) {
 						$url.='&itag='.$yt_itag[1];
 					}
 
-				#	$url = preg_replace('#&fallback_host=[^&]*#', '', $url);
+					if ($yt_sep[1]=='sig=') {
+						preg_match("/^([^&]*)/", $url, $yt_sig);
+						$url.='&signature='.$yt_sig[1];
+					} elseif (preg_match("/sig=([^&]*)/", $url, $yt_sig)) {
+						$url.='&signature='.$yt_sig[1];
+					} elseif (preg_match("/\bs=([^&]*)/", $url, $yt_sig)) {
+						continue;
+					}
+
 					$url = preg_replace('#^.*url=#', '', $url);
 
 					define('videourl', $url);
@@ -84,7 +83,6 @@ function preParse($input, $type) {
 function postParse($input, $type) {
 	switch($type) {
 		case 'html':
-			if(!defined('videourl')) {return $input;}
 
 			# Create URL to JW Player
 			$player_url = GLYPE_URL . '/player.swf';
@@ -94,8 +92,11 @@ function postParse($input, $type) {
 			# Generate HTML for the flash object with our new FLV URL
 			$html = "<embed src=\"{$player_url}\" width=\"640\" height=\"360\" bgcolor=\"000000\" allowscriptaccess=\"always\" allowfullscreen=\"true\" type=\"application/x-shockwave-flash\" flashvars=\"width=640&height=360&type=video&fullscreen=true&volume=100&autostart=true&file=$flvUrl\" />";
 
+			if(!defined('videourl')) {
+				$html = '<div style="color:#333;font-size:24px">This video cannot be displayed.</div>';
+			}
+
 			# Add our own player into the player div
-		#	$input = preg_replace('#<div id="player".*?</div>.*?</div>#s', '<div id="player"><div id="player-api" class="player-width player-height">' . $html .'</div></div>', $input, 1);
 			$input = preg_replace('#<div id="player".*?<div id="watch7-main-container">#s', '<div id="player"><div id="player-api" class="player-width player-height off-screen-target" style="overflow: hidden;">' . $html .'</div></div><div id="watch7-main-container">', $input, 1);
 
 			$input = preg_replace('#http:\\\/\\\/s.ytimg.com\\\/yt\\\/swf\\\/watch-vfl157150.swf\\\#s','' . $player_url . '\\',$input, 1);

@@ -68,7 +68,7 @@ if ( $CONFIG['cookies_on_server'] ) {
 				$line = rtrim($line);
 				
 				// Split by tab
-				$details = explode(' ', $line);
+				$details = explode("\t", $line);
 				
 				// Check valid split, expecting 7 items
 				if ( count($details) != 7 ) {
