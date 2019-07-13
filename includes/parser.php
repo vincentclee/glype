@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************
-* Glype is copyright and trademark 2007-2014 UpsideOut, Inc. d/b/a Glype
+* Glype is copyright and trademark 2007-2015 UpsideOut, Inc. d/b/a Glype
 * and/or its licensors, successors and assigners. All rights reserved.
 *
 * Use of Glype is subject to the terms of the Software License Agreement.
@@ -241,6 +241,9 @@ class parser {
 		if ( $this->htmlOptions['stripJS'] ) {
 			$input = preg_replace('#</?noscript>#i', '', $input);
 		}
+
+		# remove srcset attribute for now
+		$input = preg_replace('#srcset\s*=\s*[\\\'"][^"]*[\\\'"]#i', '', $input);
 
 		# Parse onX events
 		$input = preg_replace_callback('#\b(on(?<!\.on)[a-z]{2,20})\s*=\s*([\\\'"])?((?(2)(?(?<=")[^"]{1,2048}|[^\\\']{1,2048})|[^\s"\\\'>]{1,2048}))(?(2)\\2|)#i', array(&$this, 'html_eventJS'), $input);
