@@ -7,6 +7,9 @@
 * http://www.glype.com/license.php
 ******************************************************************/
 
+$options['stripJS'] = false;
+$options['allowCookies'] = true;
+
 function preRequest() {
 	global $URL;
 	if ($URL['host'] != 'm.facebook.com') {

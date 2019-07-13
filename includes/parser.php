@@ -236,9 +236,8 @@ class parser {
 		# Parse style attributes
 		$input = preg_replace_callback('#style\s*=\s*([\\\'"])?((?(1)(?(?<=")[^"]{1,2048}|[^\\\']{1,2048})|[^\s"\\\'>]{1,2048}))(?(1)\\1|)#i', array(&$this, 'html_elementCSS'), $input);
 
-		# Proxy URL attributes - this is the bottleneck but optimized
-		# as much as possible (or at least, as much as I can).
-		$input = preg_replace_callback('#(?><[A-Z0-9]{1,15})(?>\s+[^>\s]+)*?\s*(?>(href|src|background)\s*=(?!\\\\)\s*)(?>([\\\'"])?)((?(2)(?(?<=")[^"]{1,2048}|[^\\\']{1,2048})|[^ >]{1,2048}))(?(2)\\2|)#i', 'html_attribute', $input);
+		# Proxy URL attributes - this is the bottleneck but optimized as much as possible
+		$input = preg_replace_callback('#(?><[A-Z0-9]{1,15})(?>\s+[^>\s]+)*?\s*(?>(href|src|background|poster)\s*=(?!\\\\)\s*)(?>([\\\'"])?)((?(2)(?(?<=")[^"]{1,2048}|[^\\\']{1,2048})|[^ >]{1,2048}))(?(2)\\2|)#i', 'html_attribute', $input);
 
 		# Return changed input
 		return $input;
@@ -364,10 +363,11 @@ class parser {
 
 		# Look for attribute assignments
 		if ( in_array('setters', $flags) ) {
-			$search['src'][]			= $assignmentPattern;
-			$search['href'][]			= $assignmentPattern;
+			$search['src'][]		= $assignmentPattern;
+			$search['href'][]		= $assignmentPattern;
 			$search['action'][]		= $assignmentPattern;
 			$search['background'][] = $assignmentPattern;
+			$search['poster'][] 	= $assignmentPattern;
 		}
 		
 		# Look for location changes
@@ -471,6 +471,7 @@ class parser {
 				case 'src':
 				case 'href':
 				case 'background':
+				case 'poster':
 				case 'action':
 				case 'locationassignment':
 				case 'innerHTML':

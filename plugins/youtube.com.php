@@ -65,6 +65,10 @@ function preParse($input, $type) {
 			$input = preg_replace('/'.preg_quote('<noscript>Hello, you either have JavaScript turned off or an old version of Adobe\'s Flash Player. <a href="http://www.adobe.com/go/getflashplayer/">Get the latest Flash player</a>.</noscript>','/').'/s','',$input);
 			$input = preg_replace('/'.preg_quote('yt.www.watch.player.write("watch-player-div", false, null, null, "100%", "100%");').'/s','',$input);
 			$input = preg_replace('/'.preg_quote('document.write(\'Hello, you either have JavaScript turned off or an old version of Adobe\\\'s Flash Player. <a href=\\"http://www.adobe.com/go/getflashplayer/\\">Get the latest Flash player</a>.\');','/').'/s','',$input);
+
+			# Remove homepage advertisements
+			$input = preg_replace('#<div id="ad_creative_.*?<\/div>#s','',$input, 4);
+
 		break;
 	}
 
@@ -91,13 +95,8 @@ function postParse($input, $type) {
 			$html = "<embed src=\"{$player_url}\" width=\"640\" height=\"360\" bgcolor=\"000000\" allowscriptaccess=\"always\" allowfullscreen=\"true\" type=\"application/x-shockwave-flash\" flashvars=\"width=640&height=360&type=video&fullscreen=true&volume=100&autostart=true&file=$flvUrl\" />";
 
 			# Add our own player into the player div
-			$input = preg_replace('#<div id="watch7-video-container">(.*?)</div>#s', '<div id="watch7-video-container">', $input, 1);
-			$input = preg_replace('#<div id="watch7-video-container">(.*?)</div>#s', '<div id="watch7-video-container">', $input, 1);
-			$input = preg_replace('#<div id="watch7-video-container">(.*?)</div>#s', '<div id="watch7-video-container"><div id="watch7-video"><div id="watch7-player" class="flash-player">' . $html .'</div></div></div>', $input, 1);
-
-			$input = preg_replace('#<div id="watch-video-container">(.*?)</div>#s', '<div id="watch-video-container">', $input, 1);
-			$input = preg_replace('#<div id="watch-video-container">(.*?)</div>#s', '<div id="watch-video-container">', $input, 1);
-			$input = preg_replace('#<div id="watch-video-container">(.*?)</div>#s', '<div id="watch-video-container"><div id="watch-video" class=" "><div id="watch-player" class="flash-player">' . $html .'</div></div></div>', $input, 1);
+		#	$input = preg_replace('#<div id="player".*?</div>.*?</div>#s', '<div id="player"><div id="player-api" class="player-width player-height">' . $html .'</div></div>', $input, 1);
+			$input = preg_replace('#<div id="player".*?<div id="watch7-main-container">#s', '<div id="player"><div id="player-api" class="player-width player-height off-screen-target" style="overflow: hidden;">' . $html .'</div></div><div id="watch7-main-container">', $input, 1);
 
 			$input = preg_replace('#http:\\\/\\\/s.ytimg.com\\\/yt\\\/swf\\\/watch-vfl157150.swf\\\#s','' . $player_url . '\\',$input, 1);
 			$input = preg_replace('#http:\\\/\\\/s.ytimg.com\\\/yt\\\/swf\\\/watch-vfl157150.swf\\\#s','' . $player_url . '\\',$input, 1);

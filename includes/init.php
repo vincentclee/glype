@@ -92,7 +92,7 @@ $httpErrors = array('404' => 'A 404 error occurs when the requested resource doe
 ******************************************************************/
 
 # Current version - no need to change this!
-$themeReplace['version'] = 'v1.4.3';
+$themeReplace['version'] = 'v1.4.4';
 
 # Look for a config.php in the /themes/themeName/ folder
 if ( ! defined('MULTIGLYPE') && file_exists($tmp = GLYPE_ROOT . '/themes/' . $CONFIG['theme'] . '/config.php') ) {
@@ -526,7 +526,12 @@ function absoluteURL($input) {
 	
 	# "//domain.com" is valid - add the HTTP protocol if we have this
 	if ( $input[0] == '/' && isset($input[1]) && $input[1] == '/' ) {
-		$input= 'http:' . $input;
+		$input= $URL['scheme'].':'.$input;
+	}
+	
+	# URIs that start with ? are relative to the page loaded
+	if ($input[0] == '?') {
+		$input = $URL['href'].$input;
 	}
 	
 	# Look for http or https and if necessary, convert relative to absolute

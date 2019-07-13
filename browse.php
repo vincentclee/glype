@@ -80,7 +80,7 @@ $URL = array(
 	'scheme'		=> $tmp[2],
 	'auth'			=> $tmp[3],
 	'host'			=> strtolower($tmp[4]),
-	'domain'		=> preg_match('#(?:^|\.)([a-z0-9-]+\.(?:[a-z.]{5,6}|[a-z]{2,}))$#', $tmp[4], $domain) ? $domain[1] : $tmp[4], # Attempt to split off the subdomain (if any)
+	'domain'		=> strtolower(preg_match('#(?:^|\.)([a-z0-9-]+\.(?:[a-z.]{5,6}|[a-z]{2,}))$#', $tmp[4], $domain) ? $domain[1] : $tmp[4]), # Attempt to split off the subdomain (if any)
 	'port'			=> $tmp[5],
 	'path'			=> '/' . $tmp[6],
 	'filename'		=> $tmp[7],
@@ -1010,12 +1010,24 @@ class Request {
 		if ( isset($this->headers['content-type']) ) {
 
 			# Define content-type to parser type relations
-			$types = array('text/javascript'				=> 'javascript',
-								'application/javascript'	=> 'javascript',
-								'application/x-javascript'	=> 'javascript',
-								'application/xhtml+xml'		=> 'html',
-								'text/html'					=> 'html',
-								'text/css'					=> 'css');
+			$types = array(
+				'text/javascript'			=> 'javascript',
+				'text/ecmascript'			=> 'javascript',
+				'application/javascript'	=> 'javascript',
+				'application/x-javascript'	=> 'javascript',
+				'application/ecmascript'	=> 'javascript',
+				'application/x-ecmascript'	=> 'javascript',
+				'text/livescript'			=> 'javascript',
+				'text/jscript'				=> 'javascript',
+				'application/xhtml+xml'		=> 'html',
+				'text/html'					=> 'html',
+				'text/css'					=> 'css',
+			#	'text/xml'					=> 'rss',
+			#	'application/rss+xml'		=> 'rss',
+			#	'application/rdf+xml'		=> 'rss',
+			#	'application/atom+xml'		=> 'rss',
+			#	'application/xml'			=> 'rss',
+			);
 
 			# Extract mimetype from charset (if exists)
 			global $charset;
@@ -1467,6 +1479,14 @@ if ( $fetch->parseType ) {
 	/*****************************************************************
 	* Apply the relevant parsing methods to the document
 	******************************************************************/
+
+	# Decode gzip compressed content
+	if (isset($fetch->headers['content-encoding']) && $fetch->headers['content-encoding']=='gzip') {
+		if (function_exists('gzinflate')) {
+			unset($fetch->headers['content-encoding']);
+			$document=gzinflate(substr($document,10,-8));
+		}
+	}
 
 	# Apply preparsing from plugins
 	if ( $foundPlugin && function_exists('preParse') ) {
