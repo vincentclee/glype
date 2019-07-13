@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************
-* Glype is copyright and trademark 2007-2014 UpsideOut, Inc. d/b/a Glype
+* Glype is copyright and trademark 2007-2012 UpsideOut, Inc. d/b/a Glype
 * and/or its licensors, successors and assigners. All rights reserved.
 *
 * Use of Glype is subject to the terms of the Software License Agreement.
@@ -36,7 +36,7 @@ $CONFIG['enable_blockscript'] = false;
 $CONFIG['theme'] = 'default';
 
 # Run plugins on these websites
-$CONFIG['plugins'] = 'facebook.com,google.com,hotmail.com,live.com,msn.com,myspace.com,twitter.com,yahoo.com,youtube.com,ytimg.com';
+$CONFIG['plugins'] = 'facebook.com,youtube.com,myspace.com';
 
 # Temporary directory used by the script. Many features require
 # write permission to the temporary directory. Ensure this
@@ -265,7 +265,7 @@ $CONFIG['options']['stripObjects'] = array(
 
 # Settings file version for determining compatability with admin
 # tool.
-$CONFIG['version'] = '1.4.8';
+$CONFIG['version'] = '1.4.1';
 
 //---PRESERVE ME---
 // Anything below this line will be preserved when the admin control panel rewrites
