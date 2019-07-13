@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************
-* Glype is copyright and trademark 2007-2015 UpsideOut, Inc. d/b/a Glype
+* Glype is copyright and trademark 2007-2016 UpsideOut, Inc. d/b/a Glype
 * and/or its licensors, successors and assigners. All rights reserved.
 *
 * Use of Glype is subject to the terms of the Software License Agreement.
@@ -230,7 +230,7 @@ switch ( $action ) {
 					$details = explode('|', $cookie, 3);
 
 					# Check for successful split
-					if ( !empty($details[2]) ) {
+					if ( !isset($details[2]) ) {
 						continue;
 					}
 

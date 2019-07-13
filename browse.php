@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************
-* Glype is copyright and trademark 2007-2015 UpsideOut, Inc. d/b/a Glype
+* Glype is copyright and trademark 2007-2016 UpsideOut, Inc. d/b/a Glype
 * and/or its licensors, successors and assigners. All rights reserved.
 *
 * Use of Glype is subject to the terms of the Software License Agreement.
@@ -327,6 +327,11 @@ $toSet[CURLOPT_SSL_VERIFYHOST] = false;
 
 # Send an empty Expect header (avoids 100 responses)
 $toSet[CURLOPT_HTTPHEADER][] = 'Expect:';
+
+# Use IPv4 for DNS resolution
+if (defined('CURLOPT_IPRESOLVE') && defined('CURL_IPRESOLVE_V4')) {
+	$toSet[CURLOPT_IPRESOLVE][] = 'CURL_IPRESOLVE_V4';
+}
 
 # Can we use "If-Modified-Since" to save a transfer? Server can return 304 Not Modified
 if ( isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ) {
