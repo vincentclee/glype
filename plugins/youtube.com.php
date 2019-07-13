@@ -11,20 +11,31 @@ $toSet[CURLOPT_TIMEOUT] = 3600;
 $options['stripJS'] = true;
 $options['stripObjects'] = true;
 $CONFIG['max_filesize'] = 209715200;
+$CONFIG['queue_transfers'] = false;
 
 function preParse($input, $type) {
 	switch($type) {
 		case 'html':
 			if (preg_match('#url_encoded_fmt_stream_map["\']:\s*["\']([^"\'\s]*)#', $input, $stream_map)) {
-				$stream_map[1] = preg_replace('#\\\\u0026#s','&amp;',$stream_map[1]);
-				$stream_map[1] = rawurldecode($stream_map[1]);
-				if(preg_match('#=34,url=([^\|;]*)(&amp;)?#', $stream_map[1], $k1Value)) {
-					$s1Value = rawurldecode($k1Value[1]);
-					$s1Value = preg_replace('#&amp$#s','',$s1Value);
-					define('video_url', $s1Value);
+				$urls = preg_split('/url=/', $stream_map[1]);
+				foreach ($urls as $url) {
+					$url = urldecode($url);
+				
+					if (strpos($url,'video/x-flv')===false) {continue;}
+					if (strpos($url,'quality=medium')===false) {continue;}
+				#	if (strpos($url,'quality=small')===false) {continue;}
+				
+					$url = preg_replace('#;.*$#', '', $url);
+					$url = preg_replace('#,.*$#', '', $url);
+					$url = str_replace('sig','signature',$url);
+					$url = str_replace('\u0026amp;', '&', $url);
+					$url = str_replace('\u0026', '&', $url);
+				
+					define('videourl', $url);
+					break;
 				}
 			}
- 
+
 			# Remove noscript message
 			$input = preg_replace('/'.preg_quote('<noscript>Hello, you either have JavaScript turned off or an old version of Adobe\'s Flash Player. <a href="http://www.adobe.com/go/getflashplayer/">Get the latest Flash player</a>.</noscript>','/').'/s','',$input);
 			$input = preg_replace('/'.preg_quote('yt.www.watch.player.write("watch-player-div", false, null, null, "100%", "100%");').'/s','',$input);
@@ -35,20 +46,22 @@ function preParse($input, $type) {
 	# fix thumbnail images
 	$input = preg_replace('#<img[^>]*data-thumb=#s','<img alt="Thumbnail" src=',$input);
 
+	# fix malformed links
+	$input = preg_replace('#"href="#s','" href="',$input);
+
 	return $input;
 }
 
 function postParse($input, $type) {
 	switch($type) {
 		case 'html':
-			if(!defined('video_url')) {return $input;}
+			if(!defined('videourl')) {return $input;}
 
 			# Create URL to JW Player
 			$player_url = GLYPE_URL . '/player.swf';
-
 			# Generate URL to flv file through proxy script
-			$flvUrl = rawurlencode(proxyURL(sprintf('%s',video_url)));	 
 
+			$flvUrl = rawurlencode(proxyURL(sprintf('%s',videourl)));	 
 			# Generate HTML for the flash object with our new FLV URL
 			$html = "<embed src=\"{$player_url}\" width=\"640\" height=\"360\" bgcolor=\"000000\" allowscriptaccess=\"always\" allowfullscreen=\"true\" type=\"application/x-shockwave-flash\" flashvars=\"width=640&height=360&type=video&fullscreen=true&volume=100&autostart=true&file=$flvUrl\" />";
 

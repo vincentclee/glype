@@ -993,7 +993,8 @@ function analyze_js($input, $start, $argPos = false) {
 function encodePage($input) {
 
 	# Look for script blocks
-	if ( preg_match_all('#<(script|style).*?</(script|style)>#is', $input, $scripts, PREG_OFFSET_CAPTURE) ) {
+#	if ( preg_match_all('#<(?:script|style).*?</(?:script|style)>#is', $input, $scripts, PREG_OFFSET_CAPTURE) ) { # not working
+	if ( preg_match_all('#<script.*?</script>#is', $input, $scripts, PREG_OFFSET_CAPTURE) ) {
 	
 		# Create starting offset - only start encoding after the <head>
 		# as this seems to help browsers cope!
@@ -1009,7 +1010,7 @@ function encodePage($input) {
 			$length = $end - $start;
 			
 			# Add encoded block to page if there is one
-			if ($length) {
+			if ($length && $length>0) {
 				$new .= "\n\n\n<!--start encode block-->\n";
 				$new .= encodeBlock(substr($input, $start, $length));
 				$new .= "\n<!--end encode block-->\n\n\n";
