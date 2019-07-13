@@ -1,0 +1,7 @@
+# ------------------------------------------------------------------------------
+# INSTALLATION INSTRUCTIONS
+# ------------------------------------------------------------------------------
+
+ 1. Upload the contents of the /glype-1.4.1/ folder to the desired directory on your server.
+ 2. Visit the URL of your Glype Admin Control Panel (i.e. http://www.domain.com/admin.php).
+ 3. Set the desired options and save your settings.

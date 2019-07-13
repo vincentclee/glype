@@ -1,0 +1,328 @@
+Glype Software License Agreement
+
+1. Introduction and Acceptance This Software License Agreement (the "Agreement")
+between you (either an individual or an entity, referred to hereinafter as "you"
+or "your") and UpsideOut, Inc. ("UpsideOut", "we", "us" or "our") regarding
+UpsideOut's software known as Glype and any updates, features, enhancements, bug
+fixes or modifications of Glype version 1 (collectively, the "Software") and any
+related services and content ("Services") that may be provided by us under this
+Agreement.
+
+By downloading, accessing, installing or using the Software or the Services (or
+authorizing any other person to do so) you are representing and warranting that
+you have reached the age of majority in your state or country (or that a parent
+or guardian has consented to this Agreement on your behalf), have the authority
+to enter into a binding legal contract, have read and understood this Agreement
+and agree to be bound by its terms. This Agreement comprises the entire
+agreement between you and us and supersedes any prior or contemporaneous
+agreements, promises, representations, or descriptions pertaining to the subject
+matter contained herein. If you do not agree with the terms and conditions of
+this Agreement, you may not download, access, install or use the Software or the
+Services.
+
+2. Grant of License We have the sole and exclusive right and license to the
+Software and the Software is being licensed, not sold, to you by UpsideOut for
+use only under the terms of this Agreement. UpsideOut grants to you a limited,
+non-exclusive license to download, access, install and use a single instance of
+the Software on a single domain name for non-commercial purposes only. UpsideOut
+and/or its licensors retain all right, title and interest in and to the Software
+itself and reserve all rights not expressly granted herein. All rights in and to
+the Software shall inure to the use and benefit of UpsideOut and/or its
+licensors, successors and assigners. The source code to the Software ("Source
+Code") is viewable and may be modified by licensed users pursuant to Sections 3
+and 6 of this Agreement and in accordance with the terms of this Agreement.
+
+3. Restrictions Without limiting the generality of "Grant of License" above,
+your license to use the Software and related Services is subject to the
+following terms and conditions and restrictions and prohibitions on use:
+
+(a) You may not utilize the Software or Services to engage in or allow others to
+engage in any activity that violates any law, rule, regulation or this Agreement
+as it may be amended from time to time.
+
+(b) You may not modify or subvert the Software in any way that may cause harm to
+the Software, end-users, websites, or in any way that lessens the effectiveness
+of the anonymity afforded by the Software to end-users.
+
+(c) You may not utilize the Software or Services in any manner that may infringe
+any copyright, trademark or any other intellectual property right, proprietary
+right, property right or any other right of ours or any third party, or remove,
+alter or conceal any copyright, trademark, patent or other property rights
+notices contained on the Software.
+
+(d) You may not transfer, assign, rent, lease, lend, sell, redistribute or
+sublicense the Software, any portion of the Source Code or any rights under this
+Agreement, except as expressly set forth in Section 5 of this Agreement.
+
+(e) You may not and you agree not to, or to enable others to, create derivative
+works of the Software or related Services.
+
+(f) The Software may store or generate additional files (such as databases) for
+use solely by the Software and us and may not be used for any other purpose or
+disclosed to any third party for any reason.
+
+(g) You may not exploit errors in design, features which are not documented or
+bugs to gain access that would otherwise not be available or to obtain any
+competitive advantage.
+
+(h) The Software contains certain access control mechanisms designed to prevent
+its use or misuse by various entities. Such access control mechanisms are
+clearly identified in the Sorce Code and may not be modified or removed in any
+event.
+
+4. Licensing Options and Fees The webpages output by the Software may contain
+visual references to us or to the Software and links to the Glype.com website
+(collectively, "Copyright Attribution Notices"). The Software is free to
+download, install and use for non-commercial purposes provided that all
+Copyright Attribution Notices remain visible and unmodified. You may obtain a
+license from us which allows commercial use and allows you to remove Copyright
+Attribution Notices.
+
+5. Assignment You may not assign this Agreement or your license rights in the
+Software. This Agreement and all incorporated agreements and your information
+may be assigned by us in our sole discretion.
+
+6. Grant Back All modifications, alterations and improvements made to the
+Software and related material (collectively, the "Contribution") shall inure
+solely to our benefit and shall be owned solely by us. You agree to disclose and
+transfer the Contribution (including documentation, supporting files, unencoded
+source code, and acquired know-how) to us. You hereby assign, transfer, grant,
+convey and quitclaim unto us, and we accept, all your rights, title and interest
+in the Contribution, for us and our heirs, successors and assigns forever to
+have and to hold. We subsequently grant you a non-exclusive, royalty-free and
+perpetual license to use such Contribution but only as set forth in this
+Agreement.
+
+7. Intellectual Property The Software and data available on the Glype.com
+website (including information, content, organization, graphics, and design) are
+our property or the property of third parties and are protected by copyright,
+trademark and other intellectual property laws. We reserve any rights not
+expressly granted herein.
+
+8. Templates and Plugins The appearance and functionality of the Software can be
+augmented by templates and plugins (the "Plugins"), the creation of which is
+subject to Section 3 of this Agreement and in accordance with the terms of this
+Agreement. You agree to disclose and transfer any Plugins made by you (including
+documentation, supporting files, unencoded source code, and acquired know-how)
+to us subject to Section 15 of this Agreement.
+
+9. Termination This Agreement shall remain in effect until terminated. Your
+rights under this Agreement will terminate automatically or otherwise cease to
+be effective without notice from us if you fail to comply with any term of this
+Agreement. We reserve the right to terminate your license to use the Software or
+any related Service for any or no reason, with or without notice, at any time.
+Upon the termination of this Agreement, you shall immediately cease all use of
+the Software and destroy all copies, full or partial, of the Software that may
+be in your possession or under your control. We shall not be liable to you or
+any third party for any claim or cause of action arising out of our exercise of
+the foregoing rights. The provisions in Sections 16-18, and 21-23 of this
+Agreement shall survive any such termination.
+
+10. Modifications to Agreement We reserve the right to modify the terms of this
+Agreement at any time, and to change, discontinue or impose conditions on any
+feature or aspect of the Software, or related Services and to provide
+notification solely by posting an updated version of the Agreement on the
+Glype.com website. You are responsible for regularly reviewing our policies.
+Continued use of the Software after any policy change shall constitute your
+binding consent to such changes.
+
+11. Registration Data Certain aspects of the Software or Services may require
+you to register. If registration is requested, you agree to provide us with
+true, accurate, current and complete information as prompted by the sign-up
+process. If you provide any information that is inaccurate, not current or
+incomplete, or we have reasonable grounds to suspect is inaccurate, not current
+or incomplete, we may suspend or terminate your account unless and until such
+data is corrected or completed, or we may refuse any and all current or future
+access to and use of the Software or Services (or any portion thereof).
+
+12. Account Security You are solely responsible for (a) maintaining the
+confidentiality and security of your administrator password and any other
+account information used by you to access the Software and Services; and (b)
+preventing unauthorized access to or use of the information, files or data that
+you store or use in or with the Software and Services.
+
+13. Payments You represent and warrant that if you are purchasing something from
+us that (a) all billing information you supply is true and complete; (b) charges
+incurred by you will be honored by your bank and/or credit card company; and (c)
+you will pay the charges incurred by you at the posted prices, including any
+applicable taxes. Payment is due at the time of order. In the event of any
+default in making payments due to us, you agree to pay to us interest on any
+unpaid balance at the highest applicable legal rate from the date of default,
+plus our costs of collection, including attorneys' fees.
+
+14. No Refund Policy All sales are final and no refunds will be issued, unless a
+clear technical problem results in an inadvertent duplicate payment. Please
+ensure your transaction is correct before submitting your payment. By submitting
+any payment to us, you are agreeing to our no refund policy.
+
+15. Submissions We provide various mechanisms to provide suggestions, ideas, and
+other remarks about the Software and any related services to us (collectively, a
+"Submission"). You agree that we are entitled to use the Submission in our full
+and complete discretion, including, without limitation, for any commercial or
+other purpose whatsoever, without compensation to you or any other person
+sending the Submission. You hereby waive any "moral rights" in any Submission
+and grant us a perpetual, irrevocable, royalty-free, worldwide, sub-licenseable
+(through multiple tiers) license to make, have made, sell, offer for sale,
+import, use, reproduce, distribute (through multiple tiers), prepare derivative
+works of, publicly perform and publicly display the Submission (and any
+derivative works of the Submission) in any media now known or hereafter known.
+
+16. DISCLAIMER OF WARRANTIES TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW,
+THE SOFTWARE AND SERVICES ARE PROVIDED "AS IS," WITH ALL FAULTS AND WITHOUT
+WARRANTY OF ANY KIND, AND WE EXPRESSLY DISCLAIM ALL WARRANTIES AND CONDITIONS
+WITH RESPECT TO THE SOFTWARE, EITHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING,
+BUT NOT LIMITED TO, THE IMPLIED WARRANTIES AND/OR CONDITIONS OF MERCHANTABILITY,
+OF SATISFACTORY QUALITY, OF FITNESS FOR A PARTICULAR PURPOSE, OF ACCURACY, OF
+QUIET ENJOYMENT AND NON-INFRINGEMENT OF THIRD PARTY RIGHTS. WE DO NOT WARRANT
+THAT THE SOFTWARE OR ANY RELATED SERVICES OR CONTENT WILL MEET YOUR
+REQUIREMENTS, OR IS SECURE, OR IS FREE FROM BUGS, VIRUSES, ERRORS, OR THAT
+DEFECTS WILL BE CORRECTED. SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OF
+CERTAIN WARRANTIES, SO SOME OF THE ABOVE EXCLUSIONS MAY NOT APPLY TO YOU. IN
+THAT EVENT, SUCH WARRANTIES THAT MAY ARISE BY OPERATION OF LAW, ARE LIMITED IN
+DURATION TO 30 DAYS FROM THE DATE OF LICENSE OF THE SOFTWARE. YOU EXPRESSLY
+ACKNOWLEDGE AND AGREE THAT USE OF THE SOFTWARE AND SERVICES ARE AT YOUR SOLE
+RISK AND THAT THE ENTIRE RISK AS TO SATISFACTORY QUALITY, PERFORMANCE, USE,
+OUTPUT, ANALYSIS, RESULTS, ACCURACY AND EFFORT IS WITH YOU. NO ADVICE OR
+INFORMATION, WHETHER ORAL OR WRITTEN, OBTAINED BY YOU FROM US OR OUR EMPLOYEES,
+REPRESENTATIVE OR AGENTS OR THROUGH OR FROM THE SOFTWARE OR OUR WEBSITE SHALL
+CREATE ANY WARRANTY NOT EXPRESSLY STATED HEREIN.
+
+17. LIMITATION OF LIABILITY TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW,
+IN NO EVENT SHALL WE (or any of our our successors and predecessors and each of
+our and their respective parents, subsidiaries, affiliates, licensors,
+licensees, officers, directors, shareholders, partners, joint-venturers,
+employees, agents, contractors and suppliers and each of their respective
+officers, directors, principals, shareholders, members, employees, agents,
+representatives, heirs, executors, administrators, successors and assigns) BE
+LIABLE FOR ANY DAMAGES WHATSOEVER, INCLUDING, BUT NOT LIMITED TO, PERSONAL
+INJURY OR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL, EXEMPLARY, PUNITIVE, COVER,
+CONSEQUENTIAL OR OTHER DAMAGES, INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS
+OF PROFITS, LOSS OF DATA, LOSS OF USE, COSTS OF PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES, BUSINESS INTERRUPTION, LOSS OF GOODWILL OR ANY OTHER COMMERCIAL
+DAMAGES OR LOSSES, ARISING OUT OF OR RELATED TO THE USE OF, OR INABILITY TO USE,
+THE SOFTWARE OR ANY RELATED SERVICES OR CONTENT, HOWEVER CAUSED, REGARDLESS OF
+THE THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, TORT (INCLUDING
+NEGLIGENCE), PRODUCT LIABILITY OR OTHERWISE, EVEN IF ADVISED OF THE POSSIBILITY
+OF SUCH DAMAGES, AND EVEN IF A REMEDY SET FORTH HEREIN IS FOUND TO HAVE FAILED
+OF ITS ESSENTIAL PURPOSE. WITHOUT LIMITING THE FOREGOING, IN NO EVENT SHALL OUR
+TOTAL LIABILITY TO YOU FOR ACTUAL DAMAGES FOR ANY CAUSE WHATSOEVER EXCEED THE
+AMOUNT PAID BY YOU TO LICENSE THE SOFTWARE (IF ANY). SOME JURISDICTIONS DO NOT
+ALLOW THE LIMITATION OR EXCLUSION OF LIABILITY FOR INCIDENTAL OR CONSEQUENTIAL
+DAMAGES, SO THE FOREGOING LIMITATION OR EXCLUSION MAY NOT APPLY TO YOU. THE
+LIMITATIONS OF THE DAMAGES SET FORTH HEREIN ARE FUNDAMENTAL ELEMENTS OF THE
+BASIS OF THE BARGAIN BETWEEN US AND YOU, AND WE WOULD NOT HAVE BEEN ABLE TO
+PROVIDE THE SOFTWARE TO YOU WITHOUT SUCH LIMITATIONS. THESE LIMITATIONS SHALL
+APPLY NOTWITHSTANDING THE FAILURE OF THE ESSENTIAL PURPOSE OF ANY LIMITED
+REMEDY.
+
+18. Indemnification You agree to fully indemnify and hold us, our successors and
+predecessors and each of our and their respective parents, subsidiaries,
+affiliates, licensors, licensees, officers, directors, shareholders, partners,
+joint-venturers, employees, agents, contractors and suppliers and each of their
+respective officers, directors, principals, shareholders, members, employees,
+agents, representatives, heirs, executors, administrators, successors and
+assigns, harmless from and against any claim, suit, hearing, action, expense or
+demand, including without limitation to: all claims for damages, fees or costs
+(including attorneys' fees), arising out of or related to the use of the
+Software or any related Services or content by you, your agents or
+representatives, anyone under your control, or by any third party using your
+equipment or accounts to use the Software or Services (for purposes of this
+section, collectively, "you"); the violation by you of any provision of this
+Agreement; the violation by you of any laws or regulations; or the infringement
+or misappropriation by you any copyright, trademark or any other intellectual
+property right, proprietary right, property right or any other right of ours or
+any third party. We reserve the right to assume the exclusive defense and
+control of any matter otherwise subject to indemnification by you, in which
+event you will cooperate with us in asserting any available defenses and, as set
+forth above, be fully responsible for our attorneys' fees.
+
+19. Export Control You may not use or otherwise export or re-export the Software
+except as authorized by United States law and the laws of the jurisdiction in
+which the Software was obtained. In particular, but without limitation, the
+Software may not be exported or re-exported (a) into any U.S. embargoed
+countries or (b) to anyone on the U.S. Treasury Department's list of Specially
+Designated Nationals or the U.S. Department of Commerce Denied Persons List or
+Entity List. By using the Software, you represent and warrant that you are not
+located in any such country or on any such list. You also agree that you will
+not use the Software for any purposes prohibited by any laws, regulations or
+rules applicable in the United States (whether federal, state or local),
+including, without limitation, the development, design, manufacture or
+production of nuclear, chemical or biological weapons.
+
+20. U.S. Government End Users The Software and related documentation are
+"Commercial Items", as that term is defined at 48 C.F.R. ¤2.101, consisting of
+"Commercial Computer Software" and "Commercial Computer Software Documentation",
+as such terms are used in 48 C.F.R. ¤12.212 or 48 C.F.R. ¤227.7202, as
+applicable. Consistent with 48 C.F.R. ¤12.212 or 48 C.F.R. ¤227.7202-1 through
+227.7202-4, as applicable, the Commercial Computer Software and Commercial
+Computer Software Documentation are being licensed to U.S. Government end users
+(a) only as Commercial Items; and (b) with only those rights as are granted to
+all other end users pursuant to the terms and conditions herein.
+Unpublished-rights are reserved under the copyright laws of the United States.
+
+21. Suspected Violation of this Agreement or Law; Injunctive, Equitable Relief,
+and Liquidated Damages Without limiting any other Section of this Agreement, you
+acknowledge that we would be irreparably harmed by any violation of the
+provisions in Sections 3-7 of this Agreement, and there is no adequate remedy at
+law for such breach. Accordingly, in the event of any breach by you of these
+provisions of this Agreement, in addition to any other remedies we may have at
+law or in equity, you will have the unconditional obligation to pay us the sum
+of not less than One Hundred Thousand Dollars ($100,000) for each such breach as
+liquidated damages, and we shall be entitled immediately to seek enforcement of
+this Agreement in a court of competent jurisdiction by means of a decree of
+specific performance, an injunction without the posting of a bond or the
+requirement of any other guarantee, and any other form of equitable relief. In
+addition, you recognize, acknowledge and agree that the we are entitled to
+recover from you the costs and attorneys' fees incurred by us to enforce the
+terms of this Agreement.
+
+22. Governing Law This Agreement shall be governed by and construed in
+accordance with the laws of the State of New York, United States of America
+(without giving effect to conflict of law provisions of this or any other
+jurisdiction), and all actions arising in connection with this Agreement shall
+be brought within the State of New York. This Agreement will not be governed by
+the United Nations Convention on Contracts for the International Sale of Goods,
+the application of which is expressly excluded.
+
+23. Dispute Resolution Any controversy, dispute or claim arising out of or
+relating to this Agreement or the Software shall be settled solely by binding
+arbitration in accordance with the commercial arbitration rules of the American
+Arbitration Association. The arbitration shall be before a single arbitrator.
+Any such controversy, dispute or claim shall be arbitrated on an individual
+basis, and shall not be consolidated in any arbitration with any controversy,
+dispute or claim of any other party. The arbitration shall be conducted at a
+site in the State of New York, City of New York, and under the laws of the State
+of New York (without giving effect to conflict of law principles), and judgment
+on the arbitration award may be exclusively entered in any court having
+jurisdiction thereof within the State of New York. Each party shall bear
+one-half of the costs of the arbitration, including the fees incurred through
+AAA. Nothing herein shall limit the right of you or us to seek any interim or
+preliminary equitable or injunctive relief from a court of competent
+jurisdiction within the State of New York or any other jurisdiction necessary to
+enforce any right under this agreement pending the completion of arbitration.
+You expressly consent to and waive any objection or defense which you may have
+or hereafter have to the venue or jurisdiction of any such action, suit or
+proceeding as set forth herein. This provision is not a waiver of any rights
+which we may have under this Agreement, including the right to recover money
+damages.
+
+24. Severability In the event that any portion of this Agreement is held invalid
+or unenforceable by a court of competent jurisdiction, that portion shall be
+construed consistent with applicable law and the remaining portions shall remain
+in full force and effect.
+
+25. Titles The section titles in this Agreement are solely used for the
+convenience of the parties and have no legal or contractual significance.
+
+26. Statute of Limitations You agree that any cause of action against us arising
+out of or related to the Software or any related services, regardless of its
+form, must be commenced by you within one (1) year from the date on which the
+cause of action arose; otherwise, such cause of action is permanently waived and
+barred.
+
+27. Waiver Our failure to enforce your strict performance of any provision of
+this Agreement will not constitute a waiver of our right to subsequently enforce
+such provision or any other provision of this Agreement. No provision of this
+Agreement will be waived by any act, omission or knowledge of us or our agents
+or employees except by an instrument in writing expressly waiving such provision
+and signed by a duly authorized officer of ours.
