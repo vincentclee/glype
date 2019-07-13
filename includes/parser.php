@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************
-* Glype is copyright and trademark 2007-2013 UpsideOut, Inc. d/b/a Glype
+* Glype is copyright and trademark 2007-2014 UpsideOut, Inc. d/b/a Glype
 * and/or its licensors, successors and assigners. All rights reserved.
 *
 * Use of Glype is subject to the terms of the Software License Agreement.
@@ -16,7 +16,7 @@ class parser {
 	# State of javascript parser - null for parse everything, false
 	# for parse all non-standard overrides, or (array) with specifics
 	private $jsFlagState;
-	
+
 	# Browsing options (Remove Scripts, etc.)
 	private $htmlOptions;
 
@@ -26,12 +26,12 @@ class parser {
 		$this->htmlOptions = $htmlOptions;
 	}
 
-	
+
 	/*****************************************************************
 	* HTML parsers - main parsing function splits up document into
 	* component parts ('normal' HTML, scripts and styles)
 	******************************************************************/
-	
+
 	function HTMLDocument($input, $insert='', $inject=false, $footer='') {
 		if (strlen($input)>65536) {
 			if (version_compare(PHP_VERSION, '5.3.7')<=0) {
@@ -77,13 +77,13 @@ class parser {
 
 		# Process forms
 		$input = preg_replace_callback('#<form([^>]*)>(.*?)</form>#is', 'html_form', $input);
-		
+
 		# Remove scripts blocks (avoids individual processing below)
 		if ( $this->htmlOptions['stripJS'] ) {
 			$input = preg_replace('#<script[^>]*>.*?</script>#is', '', $input);
 		}
-		
-		
+
+
 		#
 		# Split up the document into its different types and parse them
 		#
@@ -114,10 +114,10 @@ class parser {
 				}
 			}
 			$outerEnd = $innerEnd + strlen($endTag);
-			
+
 			# Parse everything up till here and add to the new document
 			$new .= $this->HTML(substr($input, $offset, $innerStart - $offset));
-			
+
 			# Find parsing function
 			$parseFunction = $block == 'style' ? 'CSS' : 'JS' ;
 
@@ -337,7 +337,7 @@ class parser {
 		if ( $this->htmlOptions['stripJS'] ) {
 			return '';
 		}
-		
+
 		# Get our flags
 		$flags = $this->jsFlagState;
 
@@ -345,7 +345,7 @@ class parser {
 		if ( ! is_array($this->jsFlagState) ) {
 			$flags = array('ajax', 'watch', 'setters');
 		}
-		
+
 		# If override is disabled, add a "base" flag
 		if ( $this->jsFlagState === null ) {
 			$flags[] = 'base';
@@ -353,7 +353,7 @@ class parser {
 
 		# Start parsing!
 		$search = array();
-		
+
 		# Create shortcuts to various search patterns:
 		#	  "before"	  - matches preceeding character (string of single char) [ignoring whitespace]
 		#	  "after"	  - matches next character (string of single char) [ignoring whitespace]
@@ -375,7 +375,7 @@ class parser {
 			$search['background'][] = $assignmentPattern;
 			$search['poster'][] 	= $assignmentPattern;
 		}
-		
+
 		# Look for location changes
 		# location.href will be handled above, location= is handled here
 		if ( in_array('watch', $flags) ) {
@@ -387,7 +387,7 @@ class parser {
 		if ( in_array('ajax', $flags) || in_array('base', $flags) ) {
 			$search['open'][] = $methodPattern;
 		}
-		
+
 		# Add the basic code if no override
 		if ( in_array('base', $flags) ) {
 			$search['eval'][]		= $functionPattern;
@@ -439,19 +439,19 @@ class parser {
 			if ( $commandPos == $length ) {
 				break;
 			}
-			
+
 			# We've found the main point of interest; now use the
 			# search parameters to check the surrounding chars to validate
 			# the match.
 			$valid = false;
 
 			foreach ( $search[$command] as $pattern ) {
-			
+
 				# Check the preceeding chars
 				if ( isset($pattern['before']) && str_checkprev($input, $pattern['before'], $commandPos-1) === false ) {
 					continue;
 				}
-				
+
 				# Check next chars
 				if ( isset($pattern['after']) && ( $charPos = str_checknext($input, $pattern['after'], $commandPos + strlen($command), false, false) ) === false ) {
 					continue;
@@ -465,14 +465,13 @@ class parser {
 				} else {
 					$valid = $command;
 				}
-				
+
 				break;
-				
 			}
-			
+
 			# What we do next depends on which match (if any) we've found...
 			switch ( $valid ) {
-			
+
 				# Assigment
 				case 'src':
 				case 'href':
@@ -494,20 +493,20 @@ class parser {
 
 					# Produce replacement command
 					$replacement = sprintf('parse%s(%s)', $command=='innerHTML' ? 'HTML' : 'URL', substr($input, $postCharPos, $valueLength));
-					
+
 					# Adjust total document length as appropriate
 					$length += strlen($replacement);
-					
+
 					# Make the replacement
 					$input = substr_replace($input, $replacement, $postCharPos, $valueLength);
-					
+
 					# Move offset up to new position
 					$offset = $endPos + 10;
-					
+
 					# Go get next match
 					continue 2;
-					
-					
+
+
 				# Function calls - we don't know for certain if these are in fact members of the
 				# appropriate objects (window/XMLHttpRequest for .open(), document for .write() and
 				# .writeln) so we won't change anything. Main.js still overrides these functions but
@@ -516,10 +515,10 @@ class parser {
 				case 'open':
 				case 'write':
 				case 'writeln':
-					
+
 					# Find the end position (the closing ")" for the function call)
 					$endPos = analyze_js($input, $charPos);
-					
+
 					# Insert our additional argument just before that
 					$glStr=',"gl"';
 					if (strspn($input, ";\n\r\+{}()[]", $charPos) >= ($endPos - $charPos)) {
@@ -535,34 +534,34 @@ class parser {
 
 					# Get next match
 					continue 2;
-				
-				
+
+
 				# Eval() is a just as easy since we can just wrap the entire thing in parseJS().
 				case 'eval':
-				
+
 					# Ensure this is a call to eval(), not anotherfunctionendingineval()
 					if ( isset($input[$commandPos-1]) && strpos('abcdefghijklmnopqrstuvwxyz123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_', $input[$commandPos-1]) !== false ) {
 						break;
 					}
-				
+
 					# Find the end position (the closing ")" for the function call)
 					$endPos = analyze_js($input, $charPos);
 					$valueLength = $endPos - $postCharPos;
-					
+
 					# Generate our replacement
 					$replacement = sprintf('parseJS(%s)', substr($input, $postCharPos, $valueLength));
-					
+
 					# Make the replacement
 					$input = substr_replace($input, $replacement, $postCharPos, $valueLength);
-					
+
 					# Adjust the document length
 					$length += 9;
-					
+
 					# And move the offset
 					$offset = $endPos + 9;
 					continue 2;
-				
-				
+
+
 				# location.replace() is a tricky one. We have the position of the char
 				# after . as $postCharPos and need to ensure we're calling replace(), 
 				# then parse the entire URL
@@ -575,27 +574,26 @@ class parser {
 
 					# Move $postCharPos to inside the brackets of .replace()
 					$charPos = $postCharPos - 1;
-				
+
 					# Find the end position (the closing ")" for the function call)
 					$endPos = analyze_js($input, $charPos);
 					$valueLength = $endPos - $postCharPos;
-					
+
 					# Generate our replacement
 					$replacement = sprintf('parseURL(%s)', substr($input, $postCharPos, $valueLength));
-					
+
 					# Make the replacement
 					$input = substr_replace($input, $replacement, $postCharPos, $valueLength);
-					
+
 					# Adjust the document length
 					$length += 9;
-					
+
 					# And move the offset
 					$offset = $endPos + 9;
-					
+
 					continue 2;
-					
 			}
-			
+
 			# Still here? A match didn't validate so adjust offset to just after
 			# current position
 			$offset = $commandPos + 1;
@@ -795,29 +793,29 @@ function str_checknext($input, $char, $offset, $inverse = false, $pastChar = fal
 
 			# Found the passed char
 			case $char:
-			
+
 				# $inverse means we do NOT want this char
 				if ( $inverse ) {
 					return false;
 				}
-				
+
 				# Move past this to the next non-whitespace?
 				if ( $pastChar ) {
 					++$i;
 					return $i + strspn($input, " \t\r\n", $i);
 				}
-				
+
 				# Found desired char, no $pastChar, just return  X offset
 				return $i;
 
 			# Found non-$char non-whitespace
 			default:
-			
+
 				# This is the desired result if $inverse
 				if ( $inverse ) {
 					return $i;
 				}
-				
+
 				# No $inverse, found a non-$char, return false
 				return false;
 
@@ -854,9 +852,8 @@ function str_checkprev($input, $char, $offset, $inverse = false) {
 				return $inverse ? $i : false;
 
 		}
-
 	}
-	
+
 	return $inverse;
 
 }
@@ -893,7 +890,7 @@ function analyze_js($input, $start, $argPos = false) {
 				if ( $input[$i-1] == '\\' ) { 
 					break;
 				}
-			
+
 				# Skip straight to end of string
 				# Find the corresponding end delimiter and ensure it's not escaped
 				while ( ( $i = strpos($input, $char, $i+1) ) && $input[$i-1] == '\\' );
@@ -1022,7 +1019,7 @@ function analyzeAssign_js($input, $start) {
 				if ( $input[$i-1] == '\\' ) { 
 					break;
 				}
-			
+
 				# Skip straight to end of string
 				# Find the corresponding end delimiter and ensure it's not escaped
 				while ( ( $i = strpos($input, $char, $i+1) ) && $input[$i-1] == '\\' );
@@ -1115,12 +1112,12 @@ function encodePage($input) {
 	# Look for script blocks
 #	if ( preg_match_all('#<(?:script|style).*?</(?:script|style)>#is', $input, $scripts, PREG_OFFSET_CAPTURE) ) { # not working
 	if ( preg_match_all('#<script.*?</script>#is', $input, $scripts, PREG_OFFSET_CAPTURE) ) {
-	
+
 		# Create starting offset - only start encoding after the <head>
 		# as this seems to help browsers cope!
 		$offset = preg_match('#<body[^>]*>(.)#is', $input, $tmp, PREG_OFFSET_CAPTURE) ? $tmp[1][1] : 0;
 		$new	  = $offset ? substr($input, 0, $offset) : '';
-		
+
 		# Go through all the matches
 		foreach ( $scripts[0] as $id => $match ) {
 
@@ -1128,14 +1125,14 @@ function encodePage($input) {
 			$end	  = $match[1] ? $match[1]-1 : 0;
 			$start  = $offset; 
 			$length = $end - $start;
-			
+
 			# Add encoded block to page if there is one
 			if ($length && $length>0) {
 				$new .= "\n\n\n<!--start encode block-->\n";
 				$new .= encodeBlock(substr($input, $start, $length));
 				$new .= "\n<!--end encode block-->\n\n\n";
 			}
-			
+
 			# Add unencoded script to page
 			$new .= "\n\n\n<!--start unencoded block-->\n";
 			$new .= $match[0];
@@ -1143,17 +1140,16 @@ function encodePage($input) {
 
 			# Move offset up
 			$offset = $match[1] + strlen($match[0]);
-			
 		}
-		
+
 		# Add final block
 		if ( $remainder = substr($input, $offset) ) {
 			$new .= encodeBlock($remainder);
 		}
-		
+
 		# Update input with new
 		$input = $new;
-		
+
 	} else {
 		# No scripts is easy - just encode the lot
 		$input = encodeBlock($input);
@@ -1161,7 +1157,6 @@ function encodePage($input) {
 
 	# Return the encoded page
 	return $input;
-
 }
 
 # Encode block - applies the actual encoding (or rather "escaping")

@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************
-* Glype is copyright and trademark 2007-2013 UpsideOut, Inc. d/b/a Glype
+* Glype is copyright and trademark 2007-2014 UpsideOut, Inc. d/b/a Glype
 * and/or its licensors, successors and assigners. All rights reserved.
 *
 * Use of Glype is subject to the terms of the Software License Agreement.
@@ -48,7 +48,7 @@ header('Last-Modified:');
 
 /*****************************************************************
 * Find URI of resource to load
-* NB: flag and bitfield already extracted in /includes/init.php
+* Flag and bitfield already extracted in /includes/init.php
 ******************************************************************/
 
 switch ( true ) {
@@ -56,11 +56,11 @@ switch ( true ) {
 	# Try query string for URL
 	case ! empty($_GET['u']) && ( $toLoad = deproxyURL($_GET['u'], true) ):
 		break;
-		
+
 	# Try path info
 	case ! empty($_SERVER['PATH_INFO'])	 && ( $toLoad = deproxyURL($_SERVER['PATH_INFO'], true) ):
 		break;
-		
+
 	# Found no valid URL, return to index
 	default:
 		redirect();
@@ -119,23 +119,20 @@ if ( $CONFIG['stop_hotlinking'] && empty($_SESSION['no_hotlink']) ) {
 
 	# Ensure we have valid referrer information to check
 	if ( ! empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'http') === 0 ) {
-		
+
 		# Examine all the allowed domains (including our current domain)
 		foreach ( array_merge( (array) GLYPE_URL, $CONFIG['hotlink_domains'] ) as $domain ) {
 
 			# Do a case-insensitive comparison
 			if ( stripos($_SERVER['HTTP_REFERER'], $domain) !== false ) {
-				
+
 				# This referrer is OK
 				$tmp = false;
 				break;
-				
 			}
-		
 		}
-
 	}
-	
+
 	# Redirect to index if this is still identified as hotlinking
 	if ( $tmp ) {
 		error('no_hotlink');
@@ -373,7 +370,7 @@ $toSet[CURLOPT_DNS_CACHE_TIMEOUT] = 600;
 * No point sending back a file that the browser won't understand.
 * Forward all the "Accept" headers. For each, check if it exists
 * and if yes, add to the custom headers array.
-* NB: These may cause problems if the target server provides different
+* These may cause problems if the target server provides different
 * content for the same URI based on these headers and we cache the response.
 ******************************************************************/
 
@@ -785,7 +782,7 @@ class Request {
 
 	# Speed limit (bytes per second)
 	private $speedLimit = 0;
-	
+
 	# URL array split into pieces
 	private $URL;
 
@@ -814,7 +811,7 @@ class Request {
 		if ( $CONFIG['max_filesize'] ) {
 			$this->limitFilesize = $CONFIG['max_filesize'];
 		}
-		
+
 		# Determine speed limit
 		if ( $CONFIG['download_speed_limit'] ) {
 			$this->speedLimit = $CONFIG['download_speed_limit'];
@@ -1088,10 +1085,10 @@ class Request {
 
 		# Find length of data
 		$length = strlen($data);
-		
+
 		# Limit speed to X bytes/second
 		if ( $this->speedLimit ) {
-			
+
 			# Limit download speed
 			# Speed		 = Amount of data / Time
 			# [bytes/s] = [bytes]			/ [s]
@@ -1102,9 +1099,8 @@ class Request {
 
 			# Convert time to microseconds and sleep for that value
 			usleep(round($time * 1000000));
-			
 		}
-		
+
 		# Monitor length if desired
 		if ( $this->limitFilesize ) {
 
@@ -1424,7 +1420,7 @@ if ( $fetch->abort ) {
 			if ( ! $fetch->parseType ) {
 				exit;
 			}
-		
+
 			# Send to error page with filesize limit expressed in MB
 			error('file_too_large', round($CONFIG['max_filesize']/1024/1024, 3));
 			exit;
@@ -1495,7 +1491,7 @@ if ( $fetch->parseType ) {
 
 	# Load the main parser
 	require GLYPE_ROOT . '/includes/parser.php';
-	
+
 	# Create new instance, passing in the options that affect parsing
 	$parser = new parser($options, $jsFlags);
 
@@ -1515,7 +1511,6 @@ if ( $fetch->parseType ) {
 
 				# Showing the mini-form?
 				if ( $options['showForm'] ) {
-				
 					$toShow = array();
 
 					# Prepare the options
@@ -1547,7 +1542,7 @@ if ( $fetch->parseType ) {
 
 					# Load the template
 					$insert = loadTemplate('framedForm.inc', $vars);
-					
+
 					# Wrap in enable/disble override to prevent the overriden functions
 					# affecting anything in the mini-form (like ad codes)
 					if ( $CONFIG['override_javascript'] ) {
@@ -1555,7 +1550,6 @@ if ( $fetch->parseType ) {
 								  . $insert
 								  . '<script type="text/javascript">enableOverride();</script>';
 					}
-					
 				}
 
 				# And load the footer

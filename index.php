@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************
-* Glype is copyright and trademark 2007-2013 UpsideOut, Inc. d/b/a Glype
+* Glype is copyright and trademark 2007-2014 UpsideOut, Inc. d/b/a Glype
 * and/or its licensors, successors and assigners. All rights reserved.
 *
 * Use of Glype is subject to the terms of the Software License Agreement.
@@ -46,7 +46,7 @@ foreach ( $CONFIG['options'] as $name => $details ) {
 
 	# Generate the HTML 'checked' where appropriate
 	$checked = $options[$name] ? ' checked="checked"' : '';
-	
+
 	# Add to the toShow array
 	$toShow[] = array(
 		'name'			=> $name,
@@ -68,34 +68,32 @@ if ( isset($_GET['e']) && isset($phrases[$_GET['e']]) ) {
 
 	# Look for additional arguments (to be used as variables in the error message)
 	$args = isset($_GET['p']) ? @unserialize(base64_decode($_GET['p'])) : array();
-	
+
 	# If we failed to decode the arguments, reset to a blank array
 	if ( ! is_array($args) ) {
 		$args = array();
 	}
-	
+
 	# Did we find any args to pass?
 	if ( $args ) {
-	
+
 		# Add phrase to start of array (to give to call_user_func_array())
 		$args = array_merge( (array) $phrases[$_GET['e']], $args);
 		$error = call_user_func_array('sprintf',$args);
-	
+
 	} else {
-	
+
 		# Just a simple print
 		$error = $phrases[$_GET['e']];
-		
 	}
-	
+
 	# Finally add it to the $themeReplace array to get it in there
 	$themeReplace['error'] = '<div id="error">' . $error . '</div>';
-	
+
 	# And a link to try again?
 	if ( ! empty($_GET['return']) ) {
 		$themeReplace['error'] .= '<p style="text-align:right">[<a href="' . htmlentities($_GET['return']) . '">Reload ' . htmlentities(deproxyURL($_GET['return'])) . '</a>]</p>';
 	}
-	
 }
 
 /*****************************************************************
@@ -116,24 +114,24 @@ if (count($adminDetails)===0) {
 ******************************************************************/
 
 if ( $CONFIG['tmp_cleanup_interval'] ) {
-	
+
 	# Do we have a next run time?
 	if ( file_exists($file = $CONFIG['tmp_dir'] . 'cron.php') ) {
-	
+
 		# Load the next runtime
 		include $file;
-		
+
 		# Compare to current time
 		$runCleanup = $nextRun <= $_SERVER['REQUEST_TIME'];
-		
+
 	} else {
-	
+
 		# No runtime stored, assume first request with the cleanup option
 		# enabled so run now.
 		$runCleanup = true;
-				
+
 	}
-	
+
 	# This might take a while so do it after user has received
 	# page and cut connection.
 	if ( ! empty($runCleanup) ) {
@@ -167,69 +165,66 @@ if ( ! empty($runCleanup) ) {
 
 	# Update the time file
 	file_put_contents($file, '<?php $nextRun = ' . ( $_SERVER['REQUEST_TIME'] + round(3600 * $CONFIG['tmp_cleanup_interval']) ) . ';');
-	
+
 	# remove old cookie files
 	if ( is_dir($CONFIG['cookies_folder']) && ( $handle = opendir($CONFIG['cookies_folder']) ) ) {
-	
+
 		# Cut off for "active" files (24 hours)
 		$cutOff = $_SERVER['REQUEST_TIME']-86400;
-	
+
 		# Read every file in the cookies dir
 		while ( ( $file = readdir($handle) ) !== false ) {
-		
+
 			# Skip dot files
 			if ( $file[0] == '.' ) {
 				continue;
 			}
-			
+
 			$path = $CONFIG['cookies_folder'] . $file;
-			
+
 			# Check it's not being used
 			if ( filemtime($path) > $cutOff ) {
 				continue;
 			}
-			
+
 			# Delete it
 			unlink($path);
-		
+
 		}
-		
+
 		# And close handle
 		closedir($handle);
-	
 	}
-	
+
 	# remove logs
 	if ( $CONFIG['tmp_cleanup_logs'] && is_dir($CONFIG['logging_destination']) && ( $handle = opendir($CONFIG['logging_destination']) ) ) {
-	
+
 		# Cut off for deletion of old logs
 		$cutOff = $_SERVER['REQUEST_TIME'] - ($CONFIG['tmp_cleanup_logs'] * 86400);
-	
+
 		# Read every file in the logs dir
 		while ( ( $file = readdir($handle) ) !== false ) {
-		
+
 			# Skip dot files
 			if ( $file[0] == '.' ) {
 				continue;
 			}
-			
+
 			$path = $CONFIG['logging_destination'] . $file;
-			
+
 			# Check it's not being used
 			if ( filemtime($path) > $cutOff ) {
 				continue;
 			}
-			
+
 			# Delete it
 			unlink($path);
-		
 		}
-		
+
 		# And close handle
 		closedir($handle);
-	
 	}
-	
+
 	# Finished.
 
 }

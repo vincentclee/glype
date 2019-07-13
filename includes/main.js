@@ -1,5 +1,5 @@
 /*******************************************************************
-* Glype is copyright and trademark 2007-2013 UpsideOut, Inc. d/b/a Glype
+* Glype is copyright and trademark 2007-2014 UpsideOut, Inc. d/b/a Glype
 * and/or its licensors, successors and assigners. All rights reserved.
 *
 * Use of Glype is subject to the terms of the Software License Agreement.
@@ -55,13 +55,12 @@ function substr_replace(str,replacement,start,length) {
 
 // Find position of needle in haystack
 function strpos(haystack, needle, offset) {
-	
+
 	// Look for next occurrence
 	var i = haystack.indexOf(needle, offset);
-	
+
 	// indexOf returns -1 if not found, we want false
 	return i >= 0 ? i : false
-	
 }
 
 // Find length of initial segment matching mask
@@ -74,29 +73,25 @@ function strspn(input, mask, offset, length) {
 
 	// Loop through chars
 	while ( i < length ) {
-	
+
 		// Does this char match the mask?
 		if ( mask.indexOf(input.charAt(i)) == -1 ) {
-		
+
 			// No match, end here
 			return matched;
-		
 		}
-		
+
 		++matched;
 		++i;
-	
 	}
 
 	return matched;
-	
 }
 
 // Get the AJAX object
 function fetchAjaxObject() {
-	
 	var xmlHttp;
-	
+
 	try {
 	  // Firefox, Opera 8.0+, Safari
 	  xmlHttp = new XMLHttpRequest;
@@ -112,9 +107,8 @@ function fetchAjaxObject() {
 			}
 		}
 	}
-	
+
 	return xmlHttp;
-	
 }
 
 
@@ -128,69 +122,63 @@ function parseURL(input, flag) {
 
 	// First, validate the input
 	if (!input) {return '';}
-	
+
 	input = input.toString();
-	
+
 	// Is it an anchor?
 	if (input.charAt(0)=='#') {return input;}
 
 	// binary image data
 	if (input.toLowerCase().indexOf('data:image')===0) {return input;}
-	
+
 	// Is it javascript?
 	if (input.toLowerCase().indexOf('javascript:')===0) {return parseJS(input);}
 	if (input.toLowerCase().indexOf('livescript:')===0) {return parseJS(input);}
-	
+
 	// Is it a non-page?
 	if (input==='about:blank') {return '';}
 	if (input.toLowerCase().indexOf('data:')===0) {return '';}
 	if (input.toLowerCase().indexOf('file:')===0) {return '';}
 	if (input.toLowerCase().indexOf('res:')===0) {return '';}
 	if (input.toLowerCase().indexOf('C:')===0) {return '';}
-	
+
 	// Is it already proxied?
 	if ( input.indexOf(siteURL) === 0 ) {
 		return input;
 	}
-	
+
 	// Ensure a complete URL
 	if ( input.indexOf('http://') !== 0 && input.indexOf('https://') !== 0 ) {
-		
+
 		// No change if .
 		if ( input == '.' ) {
 			input = '';
 		}
-		
+
 		// Relative from root
 		if ( input.charAt(0) == '/' ) {
-		
+
 			// "//domain.com" is also acceptable so check next char as well
 			if ( input.length > 0 && input.charAt(1) == '/' ) {
-			
+
 				// Prefix the HTTP and we're done
 				input = 'http:' + input;
-				
 			} else {
-			
+
 				// Relative path from root so add scheme+host as prefix and we're done
 				input = ginf.target.h + input;
-				
 			}
-			
 		} else if ( ginf.target.b ) {
-		
+
 			// Relative path from base href
 			input = ginf.target.b + input;
-		
 		} else {
-		
+
 			// Relative from document
-			input = ginf.target.h + ginf.target.p + input;	
-			
+			input = ginf.target.h + ginf.target.p + input;
 		}
-	
 	}
-	
+
 	// Simplify path
 	// Strip ./ (refers to current directory)
 	input = input.replace('/./', '/');
@@ -202,46 +190,39 @@ function parseURL(input, flag) {
 	 
 	// Simplify path by converting /dir/../ to /
 	if ( input.indexOf('/..') > 0 ) {
-	
 		var urlparts = input.substring(ginf.target.h.length).split(/\//);
-		
 		for (var i in urlparts) {
-		
-				if ( urlparts[i] == '..' ) {
-					input = input.replace('/'+urlparts[i-1]+'/..','');
-				}
+			if ( urlparts[i] == '..' ) {
+				input = input.replace('/'+urlparts[i-1]+'/..','');
+			}
 		}
-		  
 	}
-	
+
 	// Extract an #anchor
 	var jumpTo = '';
-	
+
 	// Find position of #
 	var hashPos = input.indexOf('#');
-	
+
 	if ( hashPos >= 0 ) {
-	
+
 		// Split into jumpTo (append it after proxying) and $url
 		jumpTo = input.substr(hashPos);
 		input = input.substr(0, hashPos);
-		
 	}
-	
+
 	// Add encoding
 	if ( ginf.enc.e ) {
-		
+
 		// Part of our encoding is to remove HTTP (saves space and helps avoid detection)
 		input = input.substr(4);
 
 		// Are we using unique URLs?
 		if ( ginf.enc.u ) {
-		
+
 			// Encrypt
 			input = base64_encode(arcfour(ginf.enc.u,input));
-		
 		}
-		
 	}
 
 	// Protect chars that have other meaning in URLs
@@ -249,16 +230,12 @@ function parseURL(input, flag) {
 
 	// Return in path info format (only when encoding is on)
 	if ( ginf.enc.p && ginf.enc.e ) {
-			
 		input = input.replace(/%/g,'_');
-
 		return siteURL + '/' + input + '/b' + ginf.b + '/' + ( flag ? 'f' + flag + '/' : '') + jumpTo;
-		
 	}
-	
+
 	// Otherwise, return in 'normal' (query string) format
 	return siteURL + '?u=' + input + '&b=' + ginf.b + ( flag ? '&f=' + flag : '' ) + jumpTo;
-
 }
 
 
@@ -279,36 +256,32 @@ function updateLocation(form) {
 	for ( i=0; i < form.elements.length; i++ ) {
 	 
 		if ( form.elements[i].name == 'u' ) {
-			
+
 			// Record URL
 			url = form.elements[i].value;
 		  
 		} else if ( form.elements[i].type == 'checkbox' ) {
-		
+
 			// Add option
 			options.push(form.elements[i]);
-			
+
 			// Update encode option (for generating the new URL)
 			if ( form.elements[i].name == 'encodeURL' ) {
 				ginf.enc.e = form.elements[i].checked;
 			}
-			
 		}
-		
-	 }
+	}
 	 
 	// Ensure URL entered
 	if ( ! url ) {
 		return false;
 	}
-	
+
 	// Go through available options and edit bitfield
 	for ( i=0; i < options.length; i++ ) {
-	
 		if ( options[i].checked == true ) {
 			ginf.b = ginf.b | Math.pow(2,i);
 		}
-	
 	}
 
 	// Ensure the user entered the http://
@@ -319,7 +292,6 @@ function updateLocation(form) {
 	// Update location
 	window.top.location = myParseURL(url, 'norefer');
 	return false;
-
 }
 
 
@@ -334,7 +306,7 @@ function parseHTML(html) {
 	if ( typeof(html) != 'string' ) {
 		return html;
 	}
-	
+
 	 // Extract a base tag
 	 if ( (parser = /<base href(?==)=["']?([^"' >]+)['"]?(>|\/>|<\/base>)/i.exec(html)) ) {
 		  ginf.target.b = parser[1]; // Update base variable for future parsing
@@ -363,7 +335,7 @@ function parseHTML(html) {
 	 while ( match = parser.exec(html) ) {
 		  html = html.replace(match[0],' '+match[1]+'='+match[2]+parseURL(match[3]));
 	 }
-	
+
 	 // Convert get to post
 	 parser = /<fo(?=r)rm((?:(?!method)[^>])*)(?:\s*method\s*=\s*(["']?)(get|post)\2)?([^>]*)>/ig;
 	 while ( match = parser.exec(html) )
@@ -394,7 +366,7 @@ function parseJS(js,debug) {
 	// Check valid input
 	if ( typeof(js) != 'string' || js == false )
 		return js;
-	
+
 	// Replacer function. Our regexes move past the point of interest by
 	// enough to ensure we catch the match. Then we use this "callback" function
 	// (similar to PHP's preg_replace_callback()) to find the end of the statement
@@ -404,11 +376,11 @@ function parseJS(js,debug) {
 	//	 (2) The parenthesis captures everything up to the point where the value
 	//		  to be 'parsed' starts.
 	function replacer(match, type, offset) {
-	
+
 		// Find start position (all positions here are relative to the matched substring,
 		// not the entire original document (which is available as a 4th parameter btw))
 		var start = type.length;
-		
+
 		// Ensure we haven't already parsed this line
 		if ( match.substr(start, 5) == 'parse' ) {
 			return match;
@@ -416,10 +388,10 @@ function parseJS(js,debug) {
 
 		// And end position
 		var end = analyze_js(match, start);
-		
+
 		// Determine the wrapper to use. First clear any whitespace.
 		type = type.replace(/\s/g, '');
-		
+
 		// If .innerHTML, parse HTML. Otherwise, it's a URL.
 		var wrapperFunc = ( type == '.innerHTML=' ) ? 'parseHTML' : 'parseURL';
 
@@ -428,9 +400,8 @@ function parseJS(js,debug) {
 
 		// And make the starting replacement 
 		return substr_replace(match, wrapped, start, end-start);
-
 	}
-	
+
 	// Replace all. Because we go past the match by quite a way, we may find
 	// other statements nested within the match and these would not be replaced.
 	// To avoid this, we repeatedly call the .replace() method until it leaves us
@@ -440,16 +411,16 @@ function parseJS(js,debug) {
 		for ( var previous = input; input = input.replace(regex, replacer), input != previous; previous = input);
 		return input;
 	}
-	
+
 	// Always parse location.replace() and .innerHTML
 	js = replaceAll(js, /\b(location\s*\.\s*replace\s*\(\s*)[\s\S]{0,500}/g);
 	js = replaceAll(js, /(\.\s*innerHTML\s*=(?!=)\s*)[\s\S]{0,500}/g);
-	
+
 	// If the "watched" flag is set, parse location=
 	if ( window.failed.watched ) {
 		js = replaceAll(js, /\b(location(?:\s*\.\s*href)?\s*=(?!=)\s*)[\s\S]{0,500}/g);
 	}
-	
+
 	// If the "setters" flag is set, parse all assignments
 	if ( window.failed.setters ) {
 		js = replaceAll(js, /\b(\.href\s*=(?!=)\s*)[\s\S]{0,500}/g);
@@ -457,13 +428,12 @@ function parseJS(js,debug) {
 		js = replaceAll(js, /\b(\.src\s*=(?!=)\s*)[\s\S]{0,500}/g);
 		js = replaceAll(js, /\b(\.action\s*=(?!=)\s*)[\s\S]{0,500}/g);
 	}
-	
+
 	// Prevent attempts to assign document.domain
 	js = js.replace(/\bdocument\s*\.\s*domain\s*=/g, 'ignore=');
 
 	// Return updated code
 	return js;
-	
 }
 
 
@@ -477,7 +447,7 @@ function parseJS(js,debug) {
 // for the nth argument, where n = $argPos. The $start position must be just inside
 // the parenthesis of the function call we're interested in.
 function analyze_js(input, start, argPos) {
-		
+
 	// Set up starting variables
 	var currentArg		= 1;				 // Only used if extracting argument position
 	var i					= start;			 // Current character position
@@ -486,65 +456,64 @@ function analyze_js(input, start, argPos) {
 	var openObjects	= 0;				 // Number of objects currently open
 	var openBrackets	= 0;				 // Number of brackets currently open
 	var openArrays		= 0;				 // Number of arrays currently open
-	
+
 	// Loop through input char by char
 	while ( end === false && i < length ) {
-	
+
 		// Extract current char
 		var currentChar = input.charAt(i);
-	
+
 		// Examine current char
 		switch ( currentChar ) {
-		
+
 			// String syntax
 			case '"':
 			case "'":
-			
+
 				// Move up to the corresponding end of string position, taking
 				// into account and escaping backslashes
 				while ( ( i = strpos(input, currentChar, i+1) ) && input.charAt(i-1) == '\\' );
-			
+
 				// False? Closing string delimiter not found... assume end of document 
 				// although technically we've screwed up (or the syntax is invalid)
 				if ( i === false ) {
 					end = length;
 				}
-			
+
 				break;
-		
-		
+
+
 			// End of operation
 			case ';':
 				end = i;
 				break;
-				
-				
+
+
 			// Newlines
 			case "\n":
 			case "\r":
-				
+
 				// Newlines are ignored if we have an open bracket or array or object
 				if ( openObjects || openBrackets || openArrays || argPos ) {
 					break;
 				}
-			
+
 				// Newlines are also OK if followed by an opening function OR concatenation
 				// e.g. someFunc\n(params) or someVar \n + anotherVar
 				// Find next non-whitespace char position
 				var nextCharPos = i + strspn(input, " \t\r\n", i+1) + 1;
-				
+
 				// And the char that refers to
 				var nextChar = input.charAt(nextCharPos);
-				
+
 				// Ensure not end of document and if not, char is allowed
 				if ( nextCharPos <= length && ( nextChar == '(' || nextChar == '+' ) ) {
-					
+
 					// Move up offset to our nextChar position and ignore this newline
 					i = nextCharPos;
 					break;
-					
 				}
-				
+
 				// Still here? Newline not OK, set end to this position
 				end = i;
 				break;
@@ -569,7 +538,7 @@ function analyze_js(input, start, argPos) {
 			case '[':
 				++openArrays;
 				break;
-				
+
 			// Closing chars - is there a corresponding open char? 
 			// Yes = reduce stored count. No = end of statement.
 			case '}':
@@ -581,46 +550,45 @@ function analyze_js(input, start, argPos) {
 			case ']':
 				openArrays	  ? --openArrays	  : end = i;
 				break;
-			
-			
+
+
 			// Comma
 			case ',':
-			
+
 				// No interest here if not looking for argPos
 				if ( ! argPos ) {
 					break;
 				}
-				
+
 				// Ignore commas inside other functions or whatnot
 				if ( openObjects || openBrackets || openArrays ) {
 					break;
 				}
-				
+
 				// End now
 				if ( currentArg == argPos ) {
 					end = i;
 				}
-				
+
 				// Increase the current argument number
 				++currentArg;
-				
+
 				// If we're not after the first arg, start now?
 				if ( currentArg == argPos ) {
 					var start = i+1;
 				}
-				
+
 				break;
-			
+
 			// Any other characters
 			default:
 				// Do nothing
 		}
-		
+
 		// Increase offset
 		++i;
-	
 	}
-	
+
 	// End not found? Use end of document
 	if ( end === false ) {
 		end = length;
@@ -630,10 +598,9 @@ function analyze_js(input, start, argPos) {
 	if ( argPos ) {
 		return [start, end];
 	}
-	
+
 	// Return end
 	return end;
-	
 }
 
 
@@ -700,7 +667,6 @@ window.open = function() {
 	try {
 		return window.base_open(args[0],args[1],args[2]);
 	} catch (e) {}
-	
 };
 
 // AJAX
@@ -708,10 +674,10 @@ try {
 	// Firefox 3 and others with native XMLHttpRequest
 	XMLHttpRequest.prototype.base_open = XMLHttpRequest.prototype.open;
 	XMLHttpRequest.prototype.open = function(method, url, async, user, password) {
-	
+
 		// Get real array of arguments
 		var args = Array.prototype.slice.call(arguments);
-	
+
 		// Do want to interfere?
 		if ( ginf.override ) {
 			args[1] = parseURL(args[1], 'ajax'); 
@@ -719,8 +685,8 @@ try {
 			args[1] = parseURL(args[1], 'ajax'); 
 			args.splice(args.length-1);
 		}
-		
-		return this.base_open.apply(this, args);	
+
+		return this.base_open.apply(this, args);
 	};
 } catch (e) {
 	try {
@@ -730,7 +696,7 @@ try {
 		XMLHttpRequest.prototype.open = function(method, url, async, user, password) {
 			// Get real array of arguments
 			var args = Array.prototype.slice.call(arguments);
-		
+
 			// Do want to interfere?
 			if ( ginf.override ) {
 				args[1] = parseURL(args[1], 'ajax'); 
@@ -738,8 +704,8 @@ try {
 				args[1] = parseURL(args[1], 'ajax'); 
 				args.splice(args.length-1);
 			}
-			
-			return this.base_open.apply(this, args);	
+
+			return this.base_open.apply(this, args);
 		};
 	} catch (e) {
 		// Still no luck, tell the server side parser to deal with this for us
@@ -760,7 +726,7 @@ document.write = function(html) {
 	if ( ginf.override || args[args.length-1] == 'gl' ) {
 		html = parseHTML(html);
 	}
-	
+
 	document.base_write(html);	 
 };
 
@@ -773,8 +739,8 @@ document.writeln = function(html) {
 	if ( ginf.override || args[args.length-1] == 'gl' ) {
 		html = parseHTML(html);
 	}
-	
-	document.base_writeln(html);	
+
+	document.base_writeln(html);
 };
 
 if ( typeof ginf.override != 'undefined' || typeof ginf.test != 'undefined'  ) {
@@ -803,10 +769,10 @@ if ( typeof ginf.override != 'undefined' || typeof ginf.test != 'undefined'  ) {
 		// Not entirely unsurprising if we're here since .watch() is non-standard
 		failed.watched = true;
 	}
-	
+
 	// Setters (innerHTML, href, etc.)
 	try {
-	
+
 		var intercept = [HTMLElement, HTMLHtmlElement, HTMLHeadElement, HTMLLinkElement, HTMLStyleElement, HTMLBodyElement, HTMLFormElement, 
 							  HTMLSelectElement, HTMLOptionElement, HTMLInputElement, HTMLTextAreaElement, HTMLButtonElement, HTMLLabelElement,
 							  HTMLFieldSetElement, HTMLLegendElement, HTMLUListElement, HTMLOListElement, HTMLDListElement, HTMLDirectoryElement, 
@@ -821,7 +787,7 @@ if ( typeof ginf.override != 'undefined' || typeof ginf.test != 'undefined'  ) {
 		newAction		 = function(value) { try { this.base_setAttribute('action', parseURL(value));		 } catch(ignore) {} };
 		newHref			 = function(value) { try { this.base_setAttribute('href', parseURL(value));		 } catch(ignore) {} };
 		newBackground	 = function(value) { try { this.base_setAttribute('background', parseURL(value)); } catch(ignore) {} };
-		
+
 		// New setAttribute
 		mySetAttribute = function(attr, value) {
 			try { 
@@ -832,7 +798,7 @@ if ( typeof ginf.override != 'undefined' || typeof ginf.test != 'undefined'  ) {
 				this.base_setAttribute(attr, value);
 			} catch(ignore) {}
 		};
-		
+
 		// Loop through all dom objects and add the methods
 		for ( i=0, len=intercept.length; i < len; i++ ) {
 
@@ -840,33 +806,32 @@ if ( typeof ginf.override != 'undefined' || typeof ginf.test != 'undefined'  ) {
 			if ( typeof intercept[i].prototype == 'undefined' ) {
 				continue;
 			}
-		
+
 			// Modify the methods to send URLs back through the proxy
 			obj = intercept[i].prototype;
 
 			// setAttribute
 			obj.base_setAttribute = obj.setAttribute;
 			obj.setAttribute = mySetAttribute;
-			
+
 			// __defineSetter__
 			obj.__defineSetter__('src', newSrc);
 			obj.__defineSetter__('action', newAction);
 			obj.__defineSetter__('href', newHref);
 			obj.__defineSetter__('background', newBackground);
-
 		}
-		
+
 	} catch(e) {
 		// No luck? Handle it server side then
 		failed.setters = true;
 	}
-	
+
 	// Is this the first run? (i.e. are we testing our override capabilities?)
 	if ( typeof ginf.test != 'undefined' ) {
 
 		// Grab an ajax object
 		var req = fetchAjaxObject();
-		
+
 		// Convert failed object to string (must be a better way to do this)
 		var failures = '';
 		if ( failed.ajax )	 failures += '&ajax=1';
@@ -878,9 +843,7 @@ if ( typeof ginf.override != 'undefined' || typeof ginf.test != 'undefined'  ) {
 
 		// Go go go!
 		req.send('');
-		
 	}
-	
 }
 
 
@@ -916,7 +879,7 @@ function enableOverride() {
 	if ( ! ginf.override ) {
 		return;
 	}
-	
+
 	window.parseHTML = window.myParseHTML;
 	window.parseJS	  = window.myParseJS;
 	window.parseURL  = window.myParseURL;
@@ -932,14 +895,11 @@ function enableOverride() {
 var offsetx = 12;
 var offsety =	8;
 
-function newelement(newid)
-{ 
-	 if(document.createElement)
-	 { 
+function newelement(newid) { 
+	 if(document.createElement) { 
 		  var el = document.createElement('div'); 
-		  el.id = newid;		
-		  with(el.style)
-		  { 
+		  el.id = newid;
+		  with(el.style) { 
 				display = 'none';
 				position = 'absolute';
 		  } 
@@ -951,10 +911,8 @@ var ie5 = (document.getElementById && document.all);
 var ns6 = (document.getElementById && !document.all); 
 var ua = navigator.userAgent.toLowerCase();
 var isapple = (ua.indexOf('applewebkit') != -1 ? 1 : 0);
-function getmouseposition(e)
-{
-	 if(document.getElementById)
-	 {
+function getmouseposition(e) {
+	 if(document.getElementById) {
 		  var iebody=(document.compatMode && 
 			document.compatMode != 'BackCompat') ? 
 				document.documentElement : document.body;
@@ -968,16 +926,14 @@ function getmouseposition(e)
 		  lixlpixel_tooltip.style.top = (mousey+pagey+offsety) + 'px';
 	 }
 }
-function tooltip(tip)
-{
+function tooltip(tip) {
 	 if(!document.getElementById('tooltip')) newelement('tooltip');
 	 var lixlpixel_tooltip = document.getElementById('tooltip');
 	 lixlpixel_tooltip.innerHTML = tip;
 	 lixlpixel_tooltip.style.display = 'block';
 	 document.onmousemove = getmouseposition;
 }
-function exit()
-{
+function exit() {
 	 document.getElementById('tooltip').style.display = 'none';
 }
 

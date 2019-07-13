@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************
-* Glype is copyright and trademark 2007-2013 UpsideOut, Inc. d/b/a Glype
+* Glype is copyright and trademark 2007-2014 UpsideOut, Inc. d/b/a Glype
 * and/or its licensors, successors and assigners. All rights reserved.
 *
 * Use of Glype is subject to the terms of the Software License Agreement.
@@ -18,10 +18,10 @@
 
 require 'includes/init.php';
 
-// Stop caching
+# Stop caching
 sendNoCache();
 
-// Start buffering
+# Start buffering
 ob_start();
 
 
@@ -29,12 +29,12 @@ ob_start();
 * Create content
 ******************************************************************/
 
-// Return without saving button
+# Return without saving button
 $return		 = empty($_GET['return']) ? '' : '<input type="button" value="Cancel" onclick="window.location=\'' . remove_html($_GET['return']) . '\'">';
 $returnField = empty($_GET['return']) ? '' : '<input type="hidden" value="' . remove_html($_GET['return']) . '" name="return">';
 $agent		 = empty($_SERVER['HTTP_USER_AGENT']) ? '' : htmlentities($_SERVER['HTTP_USER_AGENT']);
 
-// Quote strings
+# Quote strings
 function escape_single_quotes($value) {
 	return str_replace("'", "\'", $value);
 }
@@ -47,7 +47,7 @@ function remove_html($x) {
 	return $x;
 }
 
-// Get existing values
+# Get existing values
 $browser		  = $_SESSION['custom_browser'];
 
 $currentUA		  = escape_single_quotes($browser['user_agent']);
@@ -58,13 +58,13 @@ echo <<<OUT
 	<script type="text/javascript">
 		// Update custom ua field with value of currently selected preset
 		function updateCustomUA(select) {
-			
+
 			// Get value
 			var newValue = select.value;
-			
+
 			// Custom field
 			var customField = document.getElementById('user-agent');
-			
+
 			// Special cases
 			switch ( newValue ) {
 				case 'none':
@@ -74,18 +74,17 @@ echo <<<OUT
 					customField.focus();
 					return;
 			}
-			
+
 			// Set new value
 			customField.value = newValue;
-			
 		}
-		
+
 		// Set select box to "custom" field when the custom text field is edited
 		function setCustomUA() {
 			var setTo = document.getElementById('user-agent').value ? 'custom' : '';
 			setSelect(document.getElementById('user-agent-presets'), setTo);
 		}
-		
+
 		// Set a select field by value
 		function setSelect(select, value) {
 			for ( var i=0; i < select.length; ++i ) {
@@ -96,19 +95,19 @@ echo <<<OUT
 			}
 			return false
 		}
-		
+
 		// Clear custom-referrer text field if real-referrer is checked
 		function clearCustomReferrer(checkbox) {
 			if ( checkbox.checked ) {
 				document.getElementById('custom-referrer').value = '';
 			}
 		}
-		
+
 		// Clear real-referrer checkbox if custom-referrer text field is edited
 		function clearRealReferrer() {
 			document.getElementById('real-referrer').checked = '';
 		}
-		
+
 		// Add domready function to set form to current values
 		window.addDomReadyFunc(function() {
 			document.getElementById('user-agent').value			= '{$currentUA}';
@@ -119,11 +118,11 @@ echo <<<OUT
 			document.getElementById('custom-referrer').value	= '{$customReferrer}';
 		});
 	</script>
-	
+
 	<h2 class="first">Edit Browser</h2>
 	<p>You can adjust the settings for your "virtual browser" below. These options affect the information the proxy sends to the target server.</p>
 	<form action="includes/process.php?action=edit-browser" method="post">
-	
+
 		<table cellpadding="2" cellspacing="0" align="center" class="large-table">
 			<tr>
 				<th colspan="2">User Agent (<a style="cursor:help;" onmouseover="tooltip('Your user agent is sent to the server and identifies the software you are using to access the internet.')" onmouseout="exit()">?</a>)</th>
@@ -165,7 +164,7 @@ echo <<<OUT
 				<td colspan="2" class="small-note"><b>Note:</b> some websites may adjust content based on your user agent.</td>
 			</tr>
 		</table>
-		
+
 		<table cellpadding="2" cellspacing="0" align="center" class="large-table">
 			<tr>
 				<th colspan="2">Referrer (<a style="cursor:help;" onmouseover="tooltip('The URL of the referring page is normally sent to the server. You can override this to a custom value or set to send no referrer for extra privacy.')" onmouseout="exit()">?</a>)</th>
@@ -182,13 +181,13 @@ echo <<<OUT
 				<td colspan="2" class="small-note"><b>Note:</b> some websites may validate your referrer and deny access if set to an unexpected value</td>
 			</tr>
 		</table>
-		
+
 		<br>
-		
+
 		<div style="text-align: center;"><input type="submit" value="Save"> {$return}</div>
-		
+
 		{$returnField}
-		
+
 	</form>
 OUT;
 
@@ -197,11 +196,11 @@ OUT;
 * Send content wrapped in our theme
 ******************************************************************/
 
-// Get buffer
+# Get buffer
 $content = ob_get_contents();
 
-// Clear buffer
+# Clear buffer
 ob_end_clean();
 
-// Print content wrapped in theme
+# Print content wrapped in theme
 echo replaceContent($content);
