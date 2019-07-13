@@ -90,7 +90,7 @@ $httpErrors = array('404' => 'A 404 error occurs when the requested resource doe
 ******************************************************************/
 
 # Current version - no need to change this!
-$themeReplace['version'] = 'v1.4.7';
+$themeReplace['version'] = 'v1.4.8';
 
 # Look for a config.php in the /themes/themeName/ folder
 # If running multiple proxies off the same source files

@@ -7,13 +7,13 @@
 * http://www.glype.com/license.php
 ******************************************************************/
 
-$options['stripJS'] = true;
+function preParse($input, $type) {
+	switch($type) {
+		case 'css':
+			$input = preg_replace('#masthead\-positioner\{[^\}]+\}#s', 'masthead-positioner{position:absolute;top:100;right:0;left:0;z-index:1999999999}', $input);
 
-#function preRequest() {
-#	global $toSet,$URL;
-#	header('Content-Type: text/plain');
-#	if ($URL['host'] != 'mobile.twitter.com') {
-#		$URL['host'] = 'mobile.twitter.com';
-#		$URL['href'] = preg_replace('#^[a-z]+://[^/]+#i', 'https://mobile.twitter.com', $URL['href']);
-#	}
-#}
+		break;
+	}
+
+	return $input;
+}

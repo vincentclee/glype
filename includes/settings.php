@@ -36,7 +36,7 @@ $CONFIG['enable_blockscript'] = false;
 $CONFIG['theme'] = 'default';
 
 # Run plugins on these websites
-$CONFIG['plugins'] = 'facebook.com,google.com,hotmail.com,live.com,msn.com,myspace.com,twitter.com,yahoo.com,youtube.com';
+$CONFIG['plugins'] = 'facebook.com,google.com,hotmail.com,live.com,msn.com,myspace.com,twitter.com,yahoo.com,youtube.com,ytimg.com';
 
 # Temporary directory used by the script. Many features require
 # write permission to the temporary directory. Ensure this
@@ -265,7 +265,7 @@ $CONFIG['options']['stripObjects'] = array(
 
 # Settings file version for determining compatability with admin
 # tool.
-$CONFIG['version'] = '1.4.7';
+$CONFIG['version'] = '1.4.8';
 
 //---PRESERVE ME---
 // Anything below this line will be preserved when the admin control panel rewrites
