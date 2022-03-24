@@ -904,7 +904,7 @@ class Request {
 
 		# Extract the status code (can occur more than once if 100 continue)
 		if ( $this->status == 0 || ( $this->status == 100 && ! strpos($header, ':') ) ) {
-			$this->status = substr($header, 9, 3);
+			$this->status = explode(" ", $header)[1];
 		}
 
 		# Attempt to extract header name and value
